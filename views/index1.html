@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST</title>
+
+    <link rel='icon' type='image/png' href='/basicComp/public/favicon.png'>
+    <link rel='stylesheet' href='/basicComp/public/global.css'>
+
+    <!-- <script type="module" src="/public/main.js"></script> -->
+    <script type="module">
+        import { run } from "/public/app.js";
+        window.run = run;
+        // run();
+    </script>
+    <script>
+        function onClick() {
+            window.run();
+        }
+    </script>
+</head>
+<body>
+    <div id="appFrame"></div>
+    <button onclick="onClick()">CLICK ME</button>
+    <div id="basicComp"></div>
+    <div id="apples"></div>
+</body>
+</html>
