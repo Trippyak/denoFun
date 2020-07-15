@@ -1,0 +1,1 @@
+import { World, _Entity } from "../deps/ecsy.ts";

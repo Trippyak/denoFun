@@ -14,6 +14,9 @@ import { ColliderDebuggingSystem } from "./systems/ColliderDebuggingSystem.ts";
 import ScoreEmitter from "./emitters/ScoreEmitter.ts";
 
 import { ScoreBoard } from "./ui/ScoreBoard/public/build/bundle.js";
+import KeyBoard from "./components/KeyBoard.ts";
+import { InputSystem } from "./systems/InputSystem.ts";
+import ControllerEmitter from "./emitters/ControllerEmitter.ts";
 
 const scoreEmitter = new ScoreEmitter();
 const scoreBoard = new ScoreBoard({
@@ -44,16 +47,42 @@ const getRandomVelocity = () => {
 
 let world = new World({context, scoreEmitter}); 
 world
+.registerComponent(KeyBoard)
 .registerComponent(Velocity)
 .registerComponent(Position)
 .registerComponent(TwoDimensions)
 .registerComponent(Shape)
 .registerComponent(Renderable)
 .registerComponent(AxisAlignedBoundingBox)
+.registerSystem(InputSystem)
 .registerSystem(MovableSystem)
 .registerSystem(CollidableSystem)
 .registerSystem(RenderableSystem)
 .registerSystem(ColliderDebuggingSystem);
+
+interface IController
+{
+    emitter: ControllerEmitter;
+}
+
+const controller: _Entity & IController = world.createEntity("KeyBoard");
+controller.addComponent(KeyBoard);
+controller.emitter = new ControllerEmitter();
+controller.emitter.on("w", () => {
+    console.log("W KEY");
+})
+.on("s", () => {
+    console.log("S KEY");
+})
+.on("ArrowUp", () => {
+    console.log("ArrowUp KEY");
+})
+.on("ArrowDown", () => {
+    console.log("ArrowDown KEY");
+})
+
+
+world.controller = controller;
 
 const ball = ballFactory(world, {
     position: center
@@ -78,18 +107,27 @@ const resetBall = (ball: _Entity) => {
 }
 
 scoreEmitter.on("score", (data) => {
-    console.log(data.playerScored);
     scoreBoard.updateScore(data);
     resetBall(ball);
 });
 
+const updateKeyBoard = (isKeyDown: boolean, key: string) => {
+    let keyBoard: KeyBoard = controller.getComponent(KeyBoard);
+    
+    if (keyBoard[key] !== isKeyDown)
+    {
+        keyBoard = controller.getMutableComponent(KeyBoard);
+        keyBoard[key] = isKeyDown;
+        controller.emitter.emit(key);
+    }
+}
 
-document.addEventListener("keypress", (event) => {
-    console.log(event.key)
+document.addEventListener("keydown", (event) => {
+    updateKeyBoard(true, event.key);
 });
 
 document.addEventListener("keyup", (event) => {
-
+    updateKeyBoard(false, event.key);
 });
 
 function run()
