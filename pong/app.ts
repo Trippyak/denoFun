@@ -26,16 +26,10 @@ canvas.height = window.innerHeight;
 
 const context = canvas.getContext("2d");
 
-
-
 const center = {
     x: canvas.width / 2
     , y: canvas.height / 2
 }
-
-RenderableSystem.context = context;
-CollidableSystem.context = context;
-CollidableSystem.scoreEmitter = scoreEmitter;
 
 ColliderDebuggingSystem.context = context;
 
@@ -48,7 +42,7 @@ const getRandomVelocity = () => {
     }
 }
 
-let world = new World(); 
+let world = new World({context, scoreEmitter}); 
 world
 .registerComponent(Velocity)
 .registerComponent(Position)
@@ -90,8 +84,8 @@ scoreEmitter.on("score", (data) => {
 });
 
 
-document.addEventListener("keydown", (event) => {
-    
+document.addEventListener("keypress", (event) => {
+    console.log(event.key)
 });
 
 document.addEventListener("keyup", (event) => {

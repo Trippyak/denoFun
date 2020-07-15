@@ -8,6 +8,11 @@ import TwoDimensions from "../components/TwoDimensions.ts";
 
 class CollidableSystem extends System
 {
+    init()
+    {
+        this.context = this.world.options.context;
+    }
+
     execute(delta: number, time: number)
     {
         let dynamicQuery = this.queries.dynamic;
@@ -38,15 +43,15 @@ class CollidableSystem extends System
 
     updateVelocity(velocity: Velocity, bounds: AxisAlignedBoundingBox)
     {
-        if (bounds.left < 0 || bounds.right > CollidableSystem.context.canvas.width)
+        if (bounds.left < 0 || bounds.right > this.context.canvas.width)
         {
-            CollidableSystem.scoreEmitter.emit("score", {
+            this.world.options.scoreEmitter.emit("score", {
                 playerScored: bounds.left < 0 ? 2 : 1
             });
             velocity.x *= -1;
         }
         
-        if (bounds.top < 0 || bounds.bottom > CollidableSystem.context.canvas.height)
+        if (bounds.top < 0 || bounds.bottom > this.context.canvas.height)
             velocity.y *= -1;
     }
 }

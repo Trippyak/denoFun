@@ -14,35 +14,17 @@ class InputSystem extends System
 
     handleKeys(keys: Keys)
     {
-        if (keys["w"])
-            this.keyUp(keys);
-        this.keyDown(keys);velocity
+
     }
 
-    keyDown(keys: Keys, key: string, velocity: Velocity, speed: number)
+    moveDown(velocity: Velocity)
     {
-        if (keys[key])
-        {
-            velocity.y = speed;
-        }
-
-        if (keys[key])
-        {
-            velocity.y = speed;
-        }
+        velocity.y *= 1;
     }
 
-    keyUp(keys: Keys, key, velocity: Velocity, speed: number)
+    moveUp(velocity: Velocity)
     {
-        if (keys[key])
-        {
-            velocity.y = speed;
-        }
-
-        if (keys[key])
-        {
-            velocity.y = speed;
-        }
+        velocity.y *= -1;
     }
 }
 

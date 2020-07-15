@@ -7,10 +7,17 @@ import TwoDimensions from "../components/TwoDimensions.ts";
 
 class RenderableSystem extends System
 {
+    context: any;
+
+    init()
+    {
+        this.context = this.world.options.context;
+    }
+
     execute(delta: number, time: number)
     {
-        RenderableSystem.context.fillStyle = "#000000";
-        RenderableSystem.context.fillRect(0, 0, RenderableSystem.context.canvas.width, RenderableSystem.context.canvas.height);
+        this.context.fillStyle = "#000000";
+        this.context.fillRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
         this.queries.renderable.results.forEach((entity: _Entity) => {
             const shape: Shape = entity.getComponent(Shape);
@@ -26,13 +33,13 @@ class RenderableSystem extends System
 
     private drawBox(position: Position, dimensions: TwoDimensions)
     {
-        RenderableSystem.context.beginPath();
-        RenderableSystem.context.rect(position.x - dimensions.width / 2
-                                    , position.y - dimensions.height / 2
-                                    , dimensions.width
-                                    , dimensions.height);
-        RenderableSystem.context.fillStyle = "#ffffff";
-        RenderableSystem.context.fill();
+        this.context.beginPath();
+        this.context.rect(position.x - dimensions.width / 2
+                        , position.y - dimensions.height / 2
+                        , dimensions.width
+                        , dimensions.height);
+        this.context.fillStyle = "#ffffff";
+        this.context.fill();
     }
 }
 
