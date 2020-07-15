@@ -102,12 +102,27 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
     "use strict";
     var hasWindow, now, SystemManager, ObjectPool, EventDispatcher, Query, QueryManager, Component, SystemStateComponent, EntityPool, EntityManager, ENTITY_CREATED, ENTITY_REMOVED, COMPONENT_ADDED, COMPONENT_REMOVE, ComponentManager, Version, Entity, DEFAULT_OPTIONS, World, System, TagComponent, copyValue, cloneValue, copyArray, cloneArray, copyJSON, cloneJSON, copyCopyable, cloneClonable, Types;
     var __moduleName = context_1 && context_1.id;
+    /**
+     * Return the name of a component
+     * @param {Component} Component
+     * @private
+     */
     function getName(Component) {
         return Component.name;
     }
+    /**
+     * Return a valid property name for the Component
+     * @param {Component} Component
+     * @private
+     */
     function componentPropertyName(Component) {
         return getName(Component);
     }
+    /**
+     * Get a key from a list of components
+     * @param {Array(Component)} Components Array of components to generate the key
+     * @private
+     */
     function queryKey(Components) {
         var names = [];
         for (var n = 0; n < Components.length; n++) {
@@ -152,10 +167,12 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
     }
     function injectScript(src, onLoad) {
         var script = document.createElement("script");
+        // @todo Use link to the ecsy-devtools repo?
         script.src = src;
         script.onload = onLoad;
         (document.head || document.documentElement).appendChild(script);
     }
+    /* global Peer */
     function hookConsoleAndErrors(connection) {
         var wrapFunctions = ["error", "warning", "log"];
         wrapFunctions.forEach(key => {
@@ -223,6 +240,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
         window.__ECSY_REMOTE_DEVTOOLS_INJECTED = true;
         window.__ECSY_REMOTE_DEVTOOLS = {};
         let Version = "";
+        // This is used to collect the worlds created before the communication is being established
         let worldsBeforeLoading = [];
         let onWorldCreated = e => {
             var world = e.detail.world;
@@ -232,17 +250,20 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
         window.addEventListener("ecsy-world-created", onWorldCreated);
         let onLoaded = () => {
             var peer = new Peer(remoteId);
-            peer.on("open", () => {
+            peer.on("open", ( /* id */) => {
                 peer.on("connection", connection => {
                     window.__ECSY_REMOTE_DEVTOOLS.connection = connection;
                     connection.on("open", function () {
+                        // infoDiv.style.visibility = "hidden";
                         infoDiv.innerHTML = "Connected";
+                        // Receive messages
                         connection.on("data", function (data) {
                             if (data.type === "init") {
                                 var script = document.createElement("script");
                                 script.setAttribute("type", "text/javascript");
                                 script.onload = () => {
                                     script.parentNode.removeChild(script);
+                                    // Once the script is injected we don't need to listen
                                     window.removeEventListener("ecsy-world-created", onWorldCreated);
                                     worldsBeforeLoading.forEach(world => {
                                         var event = new CustomEvent("ecsy-world-created", {
@@ -270,20 +291,23 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 });
             });
         };
+        // Inject PeerJS script
         injectScript("https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js", onLoaded);
     }
     exports_1("enableRemoteDevtools", enableRemoteDevtools);
     return {
         setters: [],
         execute: function () {
+            // Detector for browser's "window"
             hasWindow = typeof window !== "undefined";
+            // performance.now() "polyfill"
             now = hasWindow && typeof window.performance !== "undefined"
                 ? performance.now.bind(performance)
                 : Date.now.bind(Date);
             SystemManager = class SystemManager {
                 constructor(world) {
                     this._systems = [];
-                    this._executeSystems = [];
+                    this._executeSystems = []; // Systems that have `execute` method
                     this.world = world;
                     this.lastExecutedSystem = null;
                 }
@@ -316,6 +340,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     if (system.execute) {
                         this._executeSystems.splice(this._executeSystems.indexOf(system), 1);
                     }
+                    // @todo Add system.unregister() call to free resources
                     return this;
                 }
                 sortSystems() {
@@ -371,6 +396,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 }
             };
             ObjectPool = class ObjectPool {
+                // @todo Add initial size
                 constructor(T, initialSize) {
                     this.freeList = [];
                     this.count = 0;
@@ -381,6 +407,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     }
                 }
                 acquire() {
+                    // Grow the list by 20%ish if we're out
                     if (this.freeList.length <= 0) {
                         this.expand(Math.round(this.count * 0.2) + 1);
                     }
@@ -410,6 +437,10 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 }
             };
             exports_1("ObjectPool", ObjectPool);
+            /**
+             * @private
+             * @class EventDispatcher
+             */
             EventDispatcher = class EventDispatcher {
                 constructor() {
                     this._listeners = {};
@@ -418,6 +449,11 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         handled: 0
                     };
                 }
+                /**
+                 * Add an event listener
+                 * @param {String} eventName Name of the event to listen
+                 * @param {Function} listener Callback to trigger when the event is fired
+                 */
                 addEventListener(eventName, listener) {
                     let listeners = this._listeners;
                     if (listeners[eventName] === undefined) {
@@ -427,10 +463,20 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         listeners[eventName].push(listener);
                     }
                 }
+                /**
+                 * Check if an event listener is already added to the list of listeners
+                 * @param {String} eventName Name of the event to check
+                 * @param {Function} listener Callback for the specified event
+                 */
                 hasEventListener(eventName, listener) {
                     return (this._listeners[eventName] !== undefined &&
                         this._listeners[eventName].indexOf(listener) !== -1);
                 }
+                /**
+                 * Remove an event listener
+                 * @param {String} eventName Name of the event to remove
+                 * @param {Function} listener Callback for the specified event
+                 */
                 removeEventListener(eventName, listener) {
                     var listenerArray = this._listeners[eventName];
                     if (listenerArray !== undefined) {
@@ -440,6 +486,12 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         }
                     }
                 }
+                /**
+                 * Dispatch an event
+                 * @param {String} eventName Name of the event to dispatch
+                 * @param {Entity} entity (Optional) Entity to emit
+                 * @param {Component} component
+                 */
                 dispatchEvent(eventName, entity, component) {
                     this.stats.fired++;
                     var listenerArray = this._listeners[eventName];
@@ -450,11 +502,17 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         }
                     }
                 }
+                /**
+                 * Reset stats counters
+                 */
                 resetCounters() {
                     this.stats.fired = this.stats.handled = 0;
                 }
             };
             Query = class Query {
+                /**
+                 * @param {Array(Component)} Components List of types of components to query
+                 */
                 constructor(Components, manager) {
                     this.Components = [];
                     this.NotComponents = [];
@@ -471,21 +529,32 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     }
                     this.entities = [];
                     this.eventDispatcher = new EventDispatcher();
+                    // This query is being used by a reactive system
                     this.reactive = false;
                     this.key = queryKey(Components);
+                    // Fill the query with the existing entities
                     for (var i = 0; i < manager._entities.length; i++) {
                         var entity = manager._entities[i];
                         if (this.match(entity)) {
+                            // @todo ??? this.addEntity(entity); => preventing the event to be generated
                             entity.queries.push(this);
                             this.entities.push(entity);
                         }
                     }
                 }
+                /**
+                 * Add entity to this query
+                 * @param {Entity} entity
+                 */
                 addEntity(entity) {
                     entity.queries.push(this);
                     this.entities.push(entity);
                     this.eventDispatcher.dispatchEvent(Query.prototype.ENTITY_ADDED, entity);
                 }
+                /**
+                 * Remove entity from this query
+                 * @param {Entity} entity
+                 */
                 removeEntity(entity) {
                     let index = this.entities.indexOf(entity);
                     if (~index) {
@@ -510,6 +579,9 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         numEntities: this.entities.length
                     };
                 }
+                /**
+                 * Return stats for this query
+                 */
                 stats() {
                     return {
                         numComponents: this.Components.length,
@@ -520,9 +592,14 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
             Query.prototype.ENTITY_ADDED = "Query#ENTITY_ADDED";
             Query.prototype.ENTITY_REMOVED = "Query#ENTITY_REMOVED";
             Query.prototype.COMPONENT_CHANGED = "Query#COMPONENT_CHANGED";
+            /**
+             * @private
+             * @class QueryManager
+             */
             QueryManager = class QueryManager {
                 constructor(world) {
                     this._world = world;
+                    // Queries indexed by a unique identifier for the components it has
                     this._queries = {};
                 }
                 onEntityRemoved(entity) {
@@ -533,7 +610,14 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         }
                     }
                 }
+                /**
+                 * Callback when a component is added to an entity
+                 * @param {Entity} entity Entity that just got the new component
+                 * @param {Component} Component Component added to the entity
+                 */
                 onEntityComponentAdded(entity, Component) {
+                    // @todo Use bitmask for checking components?
+                    // Check each indexed query to see if we need to add this entity to the list
                     for (var queryName in this._queries) {
                         var query = this._queries[queryName];
                         if (!!~query.NotComponents.indexOf(Component) &&
@@ -541,6 +625,10 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                             query.removeEntity(entity);
                             continue;
                         }
+                        // Add the entity only if:
+                        // Component is in the query
+                        // and Entity has ALL the components of the query
+                        // and Entity is not already in the query
                         if (!~query.Components.indexOf(Component) ||
                             !query.match(entity) ||
                             ~query.entities.indexOf(entity))
@@ -548,6 +636,11 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         query.addEntity(entity);
                     }
                 }
+                /**
+                 * Callback when a component is removed from an entity
+                 * @param {Entity} entity Entity to remove the component from
+                 * @param {Component} Component Component to remove from the entity
+                 */
                 onEntityComponentRemoved(entity, Component) {
                     for (var queryName in this._queries) {
                         var query = this._queries[queryName];
@@ -565,6 +658,10 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                         }
                     }
                 }
+                /**
+                 * Get a query for the specified components
+                 * @param {Component} Components Components that the query should have
+                 */
                 getQuery(Components) {
                     var key = queryKey(Components);
                     var query = this._queries[key];
@@ -573,6 +670,9 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     }
                     return query;
                 }
+                /**
+                 * Return some stats from this class
+                 */
                 stats() {
                     var stats = {};
                     for (var queryName in this._queries) {
@@ -659,16 +759,22 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     this.count += count;
                 }
             };
+            /**
+             * @private
+             * @class EntityManager
+             */
             EntityManager = class EntityManager {
                 constructor(world) {
                     this.world = world;
                     this.componentsManager = world.componentsManager;
+                    // All the entities in this instance
                     this._entities = [];
                     this._nextEntityId = 0;
                     this._entitiesByNames = {};
                     this._queryManager = new QueryManager(this);
                     this.eventDispatcher = new EventDispatcher();
                     this._entityPool = new EntityPool(this, this.world.options.entityClass, this.world.options.entityPoolSize);
+                    // Deferred deletion
                     this.entitiesWithComponentsToRemove = [];
                     this.entitiesToRemove = [];
                     this.deferredRemovalEnabled = true;
@@ -676,6 +782,9 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 getEntityByName(name) {
                     return this._entitiesByNames[name];
                 }
+                /**
+                 * Create a new entity
+                 */
                 createEntity(name) {
                     var entity = this._entityPool.acquire();
                     entity.alive = true;
@@ -692,11 +801,19 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     this.eventDispatcher.dispatchEvent(ENTITY_CREATED, entity);
                     return entity;
                 }
+                // COMPONENTS
+                /**
+                 * Add a component to an entity
+                 * @param {Entity} entity Entity where the component will be added
+                 * @param {Component} Component Component to be added to the entity
+                 * @param {Object} values Optional values to replace the default attributes
+                 */
                 entityAddComponent(entity, Component, values) {
                     if (!this.world.componentsManager.Components[Component.name]) {
                         throw new Error(`Attempted to add unregistered component "${Component.name}"`);
                     }
                     if (~entity._ComponentTypes.indexOf(Component)) {
+                        // @todo Just on debug mode
                         console.warn("Component type already exists on entity.", entity, Component.name);
                         return;
                     }
@@ -716,6 +833,12 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     this.world.componentsManager.componentAddedToEntity(Component);
                     this.eventDispatcher.dispatchEvent(COMPONENT_ADDED, entity, Component);
                 }
+                /**
+                 * Remove a component from an entity
+                 * @param {Entity} entity Entity which will get removed the component
+                 * @param {*} Component Component to remove from the entity
+                 * @param {Bool} immediately If you want to remove the component immediately instead of deferred (Default is false)
+                 */
                 entityRemoveComponent(entity, Component, immediately) {
                     var index = entity._ComponentTypes.indexOf(Component);
                     if (!~index)
@@ -734,15 +857,18 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                             entity._components[componentName];
                         delete entity._components[componentName];
                     }
+                    // Check each indexed query to see if we need to remove it
                     this._queryManager.onEntityComponentRemoved(entity, Component);
                     if (Component.__proto__ === SystemStateComponent) {
                         entity.numStateComponents--;
+                        // Check if the entity was a ghost waiting for the last system state component to be removed
                         if (entity.numStateComponents === 0 && !entity.alive) {
                             entity.remove();
                         }
                     }
                 }
                 _entityRemoveComponentSync(entity, Component, index) {
+                    // Remove T listing on entity and property ref, then free the component.
                     entity._ComponentTypes.splice(index, 1);
                     var componentName = getName(Component);
                     var component = entity._components[componentName];
@@ -750,6 +876,10 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     component.dispose();
                     this.world.componentsManager.componentRemovedFromEntity(Component);
                 }
+                /**
+                 * Remove all the components from an entity
+                 * @param {Entity} entity Entity from which the components will be removed
+                 */
                 entityRemoveAllComponents(entity, immediately) {
                     let Components = entity._ComponentTypes;
                     for (let j = Components.length - 1; j >= 0; j--) {
@@ -757,12 +887,18 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                             this.entityRemoveComponent(entity, Components[j], immediately);
                     }
                 }
+                /**
+                 * Remove the entity from this manager. It will clear also its components
+                 * @param {Entity} entity Entity to remove from the manager
+                 * @param {Bool} immediately If you want to remove the component immediately instead of deferred (Default is false)
+                 */
                 removeEntity(entity, immediately) {
                     var index = this._entities.indexOf(entity);
                     if (!~index)
                         throw new Error("Tried to remove entity not in list");
                     entity.alive = false;
                     if (entity.numStateComponents === 0) {
+                        // Remove from entity list
                         this.eventDispatcher.dispatchEvent(ENTITY_REMOVED, entity);
                         this._queryManager.onEntityRemoved(entity);
                         if (immediately === true) {
@@ -781,6 +917,9 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     }
                     entity._pool.release(entity);
                 }
+                /**
+                 * Remove all entities from this manager
+                 */
                 removeAllEntities() {
                     for (var i = this._entities.length - 1; i >= 0; i--) {
                         this.removeEntity(this._entities[i]);
@@ -805,16 +944,28 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                             delete entity._componentsToRemove[componentName];
                             component.dispose();
                             this.world.componentsManager.componentRemovedFromEntity(Component);
+                            //this._entityRemoveComponentSync(entity, Component, index);
                         }
                     }
                     this.entitiesWithComponentsToRemove.length = 0;
                 }
+                /**
+                 * Get a query based on a list of components
+                 * @param {Array(Component)} Components List of components that will form the query
+                 */
                 queryComponents(Components) {
                     return this._queryManager.getQuery(Components);
                 }
+                // EXTRAS
+                /**
+                 * Return number of entities
+                 */
                 count() {
                     return this._entities.length;
                 }
+                /**
+                 * Return some stats
+                 */
                 stats() {
                     var stats = {
                         numEntities: this._entities.length,
@@ -889,15 +1040,22 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
             Entity = class Entity {
                 constructor(entityManager) {
                     this._entityManager = entityManager || null;
+                    // Unique ID for this entity
                     this.id = entityManager._nextEntityId++;
+                    // List of components types the entity has
                     this._ComponentTypes = [];
+                    // Instance of the components
                     this._components = {};
                     this._componentsToRemove = {};
+                    // Queries where the entity is added
                     this.queries = [];
+                    // Used for deferred removal
                     this._ComponentTypesToRemove = [];
                     this.alive = false;
+                    //if there are state components on a entity, it can't be removed completely
                     this.numStateComponents = 0;
                 }
+                // COMPONENTS
                 getComponent(Component, includeRemoved) {
                     var component = this._components[Component.name];
                     if (!component && includeRemoved === true) {
@@ -921,6 +1079,8 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     var component = this._components[Component.name];
                     for (var i = 0; i < this.queries.length; i++) {
                         var query = this.queries[i];
+                        // @todo accelerate this check. Maybe having query._Components as an object
+                        // @todo add Not components
                         if (query.reactive && query.Components.indexOf(Component) !== -1) {
                             query.eventDispatcher.dispatchEvent(Query.prototype.COMPONENT_CHANGED, this, component);
                         }
@@ -960,6 +1120,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                     return this._entityManager.entityRemoveAllComponents(this, forceImmediate);
                 }
                 copy(src) {
+                    // TODO: This can definitely be optimized
                     for (var componentName in src._components) {
                         var srcComponent = src._components[componentName];
                         this.addComponent(srcComponent.constructor);
@@ -1066,9 +1227,11 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 constructor(world, attributes) {
                     this.world = world;
                     this.enabled = true;
+                    // @todo Better naming :)
                     this._queries = {};
                     this.queries = {};
                     this.priority = 0;
+                    // Used for stats
                     this.executeTime = 0;
                     if (attributes && attributes.priority) {
                         this.priority = attributes.priority;
@@ -1090,24 +1253,28 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                             this.queries[queryName] = {
                                 results: query.entities
                             };
+                            // Reactive configuration added/removed/changed
                             var validEvents = ["added", "removed", "changed"];
                             const eventMapping = {
                                 added: Query.prototype.ENTITY_ADDED,
                                 removed: Query.prototype.ENTITY_REMOVED,
-                                changed: Query.prototype.COMPONENT_CHANGED
+                                changed: Query.prototype.COMPONENT_CHANGED // Query.prototype.ENTITY_CHANGED
                             };
                             if (queryConfig.listen) {
                                 validEvents.forEach(eventName => {
                                     if (!this.execute) {
                                         console.warn(`System '${this.constructor.name}' has defined listen events (${validEvents.join(", ")}) for query '${queryName}' but it does not implement the 'execute' method.`);
                                     }
+                                    // Is the event enabled on this system's query?
                                     if (queryConfig.listen[eventName]) {
                                         let event = queryConfig.listen[eventName];
                                         if (eventName === "changed") {
                                             query.reactive = true;
                                             if (event === true) {
+                                                // Any change on the entity from the components in the query
                                                 let eventList = (this.queries[queryName][eventName] = []);
                                                 query.eventDispatcher.addEventListener(Query.prototype.COMPONENT_CHANGED, entity => {
+                                                    // Avoid duplicates
                                                     if (eventList.indexOf(entity) === -1) {
                                                         eventList.push(entity);
                                                     }
@@ -1116,6 +1283,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                                             else if (Array.isArray(event)) {
                                                 let eventList = (this.queries[queryName][eventName] = []);
                                                 query.eventDispatcher.addEventListener(Query.prototype.COMPONENT_CHANGED, (entity, changedComponent) => {
+                                                    // Avoid duplicates
                                                     if (event.indexOf(changedComponent.constructor) !== -1 &&
                                                         eventList.indexOf(entity) === -1) {
                                                         eventList.push(entity);
@@ -1126,6 +1294,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                                         else {
                                             let eventList = (this.queries[queryName][eventName] = []);
                                             query.eventDispatcher.addEventListener(eventMapping[eventName], entity => {
+                                                // @fixme overhead?
                                                 if (eventList.indexOf(entity) === -1)
                                                     eventList.push(entity);
                                             });
@@ -1143,6 +1312,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
                 play() {
                     this.enabled = true;
                 }
+                // @question rename to clear queues?
                 clearEvents() {
                     for (let queryName in this.queries) {
                         var query = this.queries[queryName];
@@ -1236,6 +1406,9 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
             exports_1("copyCopyable", copyCopyable);
             cloneClonable = src => src.clone();
             exports_1("cloneClonable", cloneClonable);
+            /**
+             * Standard types
+             */
             Types = {
                 Number: createType({
                     name: "Number",
@@ -1277,6 +1450,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
             exports_1("Types", Types);
             if (hasWindow) {
                 const urlParams = new URLSearchParams(window.location.search);
+                // @todo Provide a way to disable it if needed
                 if (urlParams.has("enable-remote-devtools")) {
                     enableRemoteDevtools();
                 }
@@ -1284,7 +1458,7 @@ System.register("https://ecsy.io/build/ecsy.module", [], function (exports_1, co
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", ["https://ecsy.io/build/ecsy.module"], function (exports_2, context_2) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", ["https://ecsy.io/build/ecsy.module"], function (exports_2, context_2) {
     "use strict";
     var ecsy_module_js_1;
     var __moduleName = context_2 && context_2.id;
@@ -1304,7 +1478,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/d
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_3, context_3) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_3, context_3) {
     "use strict";
     var ecsy_ts_1, Position;
     var __moduleName = context_3 && context_3.id;
@@ -1325,7 +1499,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Velocity", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_4, context_4) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_4, context_4) {
     "use strict";
     var ecsy_ts_2, Velocity;
     var __moduleName = context_4 && context_4.id;
@@ -1346,7 +1520,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Shape", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_5, context_5) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_5, context_5) {
     "use strict";
     var ecsy_ts_3, Shape;
     var __moduleName = context_5 && context_5.id;
@@ -1369,7 +1543,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Renderable", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_6, context_6) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_6, context_6) {
     "use strict";
     var ecsy_ts_4, Renderable;
     var __moduleName = context_6 && context_6.id;
@@ -1386,7 +1560,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/TwoDimensions", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_7, context_7) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_7, context_7) {
     "use strict";
     var ecsy_ts_5, TwoDimensions;
     var __moduleName = context_7 && context_7.id;
@@ -1407,7 +1581,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/AxisAlignedBoundingBox", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy"], function (exports_8, context_8) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_8, context_8) {
     "use strict";
     var ecsy_ts_6, AxisAlignedBoundingBox;
     var __moduleName = context_8 && context_8.id;
@@ -1430,14 +1604,14 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/c
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/factories/BallFactory", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Shape", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/AxisAlignedBoundingBox"], function (exports_9, context_9) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/BallFactory", ["file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox"], function (exports_9, context_9) {
     "use strict";
-    var Position_ts_1, Velocity_ts_1, Shape_ts_1, Renderable_ts_1, TwoDimensions_ts_1, AxisAlignedBoundingBox_ts_1, create2D, createMovable, createCollidable;
+    var Position_ts_1, Velocity_ts_1, Shape_ts_1, Renderable_ts_1, TwoDimensions_ts_1, AxisAlignedBoundingBox_ts_1, create2D, createMovable, createCollidable, createMovable2D, createCollidableMovable2D, createBoundingBox;
     var __moduleName = context_9 && context_9.id;
+    // const ballFactory = ()
     function ballFactory(world, props) {
         const ball = world.createEntity("Ball");
-        props.axisAlignedBoundingBox = createBoundingBox(props);
-        console.log(props);
+        props.bounds = createBoundingBox(props);
         return createCollidableMovable2D(ball, props);
     }
     exports_9("ballFactory", ballFactory);
@@ -1463,7 +1637,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/f
             }
         ],
         execute: function () {
-            create2D = (props) => (entity) => {
+            create2D = (entity, props) => {
                 const { position, dimensions, shape } = props;
                 return entity
                     .addComponent(Position_ts_1.default, position)
@@ -1476,12 +1650,29 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/f
                 return entity.addComponent(Velocity_ts_1.default, velocity);
             };
             createCollidable = (entity, props) => {
+                props.bounds = createBoundingBox(props);
                 return entity.addComponent(AxisAlignedBoundingBox_ts_1.default, props);
+            };
+            createMovable2D = (entity, props) => createMovable(create2D(entity, props), props);
+            createCollidableMovable2D = (entity, props) => createCollidable(createMovable2D(entity, props), props);
+            createBoundingBox = (props) => {
+                const left = props.position.x;
+                const right = props.position.x + props.dimensions.width;
+                const top = props.position.y;
+                const bottom = props.position.y + props.dimensions.height;
+                return {
+                    bounds: {
+                        left,
+                        right,
+                        top,
+                        bottom
+                    }
+                };
             };
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/MovableSystem", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Velocity"], function (exports_10, context_10) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/MovableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity"], function (exports_10, context_10) {
     "use strict";
     var ecsy_ts_7, Position_ts_2, Velocity_ts_2, MovableSystem;
     var __moduleName = context_10 && context_10.id;
@@ -1499,25 +1690,35 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/s
         ],
         execute: function () {
             MovableSystem = class MovableSystem extends ecsy_ts_7.System {
-                execute(delta, time) {
-                    this.queries.moving.results.forEach((entity) => {
+                constructor() {
+                    super(...arguments);
+                    this.update = (delta) => (entity) => {
                         const velocity = entity.getComponent(Velocity_ts_2.default);
                         const position = entity.getMutableComponent(Position_ts_2.default);
                         position.x += velocity.x * delta;
                         position.y += velocity.y * delta;
-                    });
+                    };
+                }
+                execute(delta, time) {
+                    let movingQuery = this.queries.moving;
+                    let updatePosition = this.update(delta);
+                    movingQuery.changed.forEach(updatePosition);
+                    movingQuery.results.forEach(updatePosition);
                 }
             };
             exports_10("MovableSystem", MovableSystem);
             MovableSystem.queries = {
                 moving: {
-                    components: [Position_ts_2.default, Velocity_ts_2.default]
+                    components: [Position_ts_2.default, Velocity_ts_2.default],
+                    listen: {
+                        changed: [Position_ts_2.default]
+                    }
                 }
             };
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/RenderableSystem", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Shape", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/TwoDimensions"], function (exports_11, context_11) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/RenderableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions"], function (exports_11, context_11) {
     "use strict";
     var ecsy_ts_8, Renderable_ts_2, Shape_ts_2, Position_ts_3, TwoDimensions_ts_2, RenderableSystem;
     var __moduleName = context_11 && context_11.id;
@@ -1654,9 +1855,11 @@ System.register("https://deno.land/x/events/mod", [], function (exports_12, cont
                     else {
                         events.push(listener);
                     }
+                    // newListener
                     if (eventName !== "newListener" && this.events.has("newListener")) {
                         this.emit("newListener", eventName, listener);
                     }
+                    // warn
                     const maxListener = this.getMaxListeners();
                     const eventLength = events.length;
                     if (maxListener > 0 && eventLength > maxListener && !events.warned) {
@@ -1671,6 +1874,7 @@ System.register("https://deno.land/x/events/mod", [], function (exports_12, cont
                 }
                 removeAllListeners(eventName) {
                     const events = this.events;
+                    // Not listening for removeListener, no need to emit
                     if (!events.has("removeListener")) {
                         if (arguments.length === 0) {
                             this.events = new Map();
@@ -1680,6 +1884,7 @@ System.register("https://deno.land/x/events/mod", [], function (exports_12, cont
                         }
                         return this;
                     }
+                    // Emit removeListener for all listeners on all events
                     if (arguments.length === 0) {
                         for (const key of events.keys()) {
                             if (key === "removeListener")
@@ -1721,7 +1926,8 @@ System.register("https://deno.land/x/events/mod", [], function (exports_12, cont
                     return this;
                 }
                 onceWrap(eventName, listener) {
-                    const wrapper = function (...args) {
+                    const wrapper = function (...args // eslint-disable-line @typescript-eslint/no-explicit-any
+                    ) {
                         this.context.removeListener(this.eventName, this.wrapedListener);
                         this.listener.apply(this.context, args);
                     };
@@ -1757,7 +1963,7 @@ System.register("https://deno.land/x/events/mod", [], function (exports_12, cont
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/eventEmitter", ["https://deno.land/x/events/mod"], function (exports_13, context_13) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/deps/eventEmitter", ["https://deno.land/x/events/mod"], function (exports_13, context_13) {
     "use strict";
     var mod_ts_1;
     var __moduleName = context_13 && context_13.id;
@@ -1772,7 +1978,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/d
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/emitters/ScoreEmitter", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/eventEmitter"], function (exports_14, context_14) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ScoreEmitter", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/eventEmitter"], function (exports_14, context_14) {
     "use strict";
     var eventEmitter_ts_1, ScoreEmitter;
     var __moduleName = context_14 && context_14.id;
@@ -1789,7 +1995,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/e
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/CollidableSystem", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/TwoDimensions"], function (exports_15, context_15) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/CollidableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions"], function (exports_15, context_15) {
     "use strict";
     var ecsy_ts_9, Velocity_ts_3, Position_ts_4, AxisAlignedBoundingBox_ts_2, TwoDimensions_ts_3, CollidableSystem;
     var __moduleName = context_15 && context_15.id;
@@ -1856,7 +2062,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/s
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/ColliderDebuggingSystem", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/AxisAlignedBoundingBox"], function (exports_16, context_16) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/ColliderDebuggingSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox"], function (exports_16, context_16) {
     "use strict";
     var ecsy_ts_10, AxisAlignedBoundingBox_ts_3, ColliderDebuggingSystem;
     var __moduleName = context_16 && context_16.id;
@@ -1897,10 +2103,85 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/s
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/app", ["file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/factories/BallFactory", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Position", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Shape", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/MovableSystem", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/RenderableSystem", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/CollidableSystem", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/systems/ColliderDebuggingSystem", "file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/emitters/ScoreEmitter"], function (exports_17, context_17) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle", [], function (exports_17, context_17) {
     "use strict";
-    var ecsy_ts_11, BallFactory_ts_1, Position_ts_5, Velocity_ts_4, TwoDimensions_ts_4, Shape_ts_3, Renderable_ts_3, MovableSystem_ts_1, RenderableSystem_ts_1, AxisAlignedBoundingBox_ts_4, CollidableSystem_ts_1, ColliderDebuggingSystem_ts_1, ScoreEmitter_ts_1, canvas, context, scoreEmitter, SPEED_MULTIPLIER, getRandomVelocity, world, ball, lastTime;
+    var p, $, g, m, y, x, b, _, v, E, j;
     var __moduleName = context_17 && context_17.id;
+    function t() { }
+    function e(t) { return t(); }
+    function n() { return Object.create(null); }
+    function r(t) { t.forEach(e); }
+    function o(t) { return "function" == typeof t; }
+    function c(t, e) { return t != t ? e == e : t !== e || t && "object" == typeof t || "function" == typeof t; }
+    function i(t, e) { t.appendChild(e); }
+    function a(t) { t.parentNode.removeChild(t); }
+    function f(t) { return document.createElement(t); }
+    function u(t) { return document.createTextNode(t); }
+    function s() { return u(" "); }
+    function l(t, e, n) { null == n ? t.removeAttribute(e) : t.getAttribute(e) !== n && t.setAttribute(e, n); }
+    function d(t, e) { e = "" + e, t.wholeText !== e && (t.data = e); }
+    function h(t) { p = t; }
+    function S(t) { m.push(t); }
+    function w() { if (!_) {
+        _ = !0;
+        do {
+            for (let t = 0; t < $.length; t += 1) {
+                const e = $[t];
+                h(e), P(e.$$);
+            }
+            for ($.length = 0; g.length;)
+                g.pop()();
+            for (let t = 0; t < m.length; t += 1) {
+                const e = m[t];
+                v.has(e) || (v.add(e), e());
+            }
+            m.length = 0;
+        } while ($.length);
+        for (; y.length;)
+            y.pop()();
+        b = !1, _ = !1, v.clear();
+    } }
+    function P(t) { if (null !== t.fragment) {
+        t.update(), r(t.before_update);
+        const e = t.dirty;
+        t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(S);
+    } }
+    function A(t, e) { -1 === t.$$.dirty[0] && ($.push(t), b || (b = !0, x.then(w)), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31; }
+    function k(c, i, f, u, s, l, d = [-1]) { const $ = p; h(c); const g = i.props || {}, m = c.$$ = { fragment: null, ctx: null, props: l, update: t, not_equal: s, bound: n(), on_mount: [], on_destroy: [], before_update: [], after_update: [], context: new Map($ ? $.$$.context : []), callbacks: n(), dirty: d }; let y = !1; if (m.ctx = f ? f(c, g, (t, e, ...n) => { const r = n.length ? n[0] : e; return m.ctx && s(m.ctx[t], m.ctx[t] = r) && (m.bound[t] && m.bound[t](r), y && A(c, t)), e; }) : [], m.update(), y = !0, r(m.before_update), m.fragment = !!u && u(m.ctx), i.target) {
+        if (i.hydrate) {
+            const t = function (t) { return Array.from(t.childNodes); }(i.target);
+            m.fragment && m.fragment.l(t), t.forEach(a);
+        }
+        else
+            m.fragment && m.fragment.c();
+        i.intro && ((x = c.$$.fragment) && x.i && (E.delete(x), x.i(b))), function (t, n, c) { const { fragment: i, on_mount: a, on_destroy: f, after_update: u } = t.$$; i && i.m(n, c), S(() => { const n = a.map(e).filter(o); f ? f.push(...n) : r(n), t.$$.on_mount = []; }), u.forEach(S); }(c, i.target, i.anchor), w();
+    } var x, b; h($); }
+    function C(e) { let n, r, o, c, p, h, $, g; return { c() { n = f("div"), r = f("h1"), o = u(e[0]), c = s(), p = f("h1"), p.textContent = "|", h = s(), $ = f("h1"), g = u(e[1]), l(r, "class", "left svelte-2rifwi"), l(p, "class", "center svelte-2rifwi"), l($, "class", "right svelte-2rifwi"), l(n, "class", "grid-container svelte-2rifwi"); }, m(t, e) { !function (t, e, n) { t.insertBefore(e, n || null); }(t, n, e), i(n, r), i(r, o), i(n, c), i(n, p), i(n, h), i(n, $), i($, g); }, p(t, [e]) { 1 & e && d(o, t[0]), 2 & e && d(g, t[1]); }, i: t, o: t, d(t) { t && a(n); } }; }
+    function N(t, e, n) { let { firstPlayerScore: r = 0 } = e, { secondPlayerScore: o = 0 } = e; return t.$set = t => { "firstPlayerScore" in t && n(0, r = t.firstPlayerScore), "secondPlayerScore" in t && n(1, o = t.secondPlayerScore); }, [r, o, t => { const { playerScored: e } = t; 1 === e ? n(0, r += 1) : 2 === e && n(1, o += 1); }]; }
+    return {
+        setters: [],
+        execute: function () {
+            $ = [], g = [], m = [], y = [], x = Promise.resolve();
+            b = !1;
+            _ = !1;
+            v = new Set;
+            E = new Set;
+            j = class j extends class {
+                $destroy() { !function (t, e) { const n = t.$$; null !== n.fragment && (r(n.on_destroy), n.fragment && n.fragment.d(e), n.on_destroy = n.fragment = null, n.ctx = []); }(this, 1), this.$destroy = t; }
+                $on(t, e) { const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []); return n.push(e), () => { const t = n.indexOf(e); -1 !== t && n.splice(t, 1); }; }
+                $set() { }
+            } {
+                constructor(t) { super(), k(this, t, N, C, c, { firstPlayerScore: 0, secondPlayerScore: 1, updateScore: 2 }); }
+                get updateScore() { return this.$$.ctx[2]; }
+            };
+            exports_17("ScoreBoard", j);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/factories/BallFactory", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/MovableSystem", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/RenderableSystem", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/CollidableSystem", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/ColliderDebuggingSystem", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ScoreEmitter", "file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle"], function (exports_18, context_18) {
+    "use strict";
+    var ecsy_ts_11, BallFactory_ts_1, Position_ts_5, Velocity_ts_4, TwoDimensions_ts_4, Shape_ts_3, Renderable_ts_3, MovableSystem_ts_1, RenderableSystem_ts_1, AxisAlignedBoundingBox_ts_4, CollidableSystem_ts_1, ColliderDebuggingSystem_ts_1, ScoreEmitter_ts_1, bundle_js_1, scoreEmitter, scoreBoard, canvas, context, center, SPEED_MULTIPLIER, getRandomVelocity, world, ball, resetBall, lastTime;
+    var __moduleName = context_18 && context_18.id;
     function run() {
         var time = performance.now();
         var delta = time - lastTime;
@@ -1948,17 +2229,27 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
             },
             function (ScoreEmitter_ts_1_1) {
                 ScoreEmitter_ts_1 = ScoreEmitter_ts_1_1;
+            },
+            function (bundle_js_1_1) {
+                bundle_js_1 = bundle_js_1_1;
             }
         ],
         execute: function () {
+            scoreEmitter = new ScoreEmitter_ts_1.default();
+            scoreBoard = new bundle_js_1.ScoreBoard({
+                target: document.getElementById("score-board")
+            });
             canvas = document.getElementById("game-area");
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            context = canvas.getContext("2d");
-            scoreEmitter = new ScoreEmitter_ts_1.default();
-            scoreEmitter.on("score", (data) => {
-                console.log(data.playerScored);
+            document.addEventListener("keydown", (event) => {
+                console.log(event);
             });
+            context = canvas.getContext("2d");
+            center = {
+                x: canvas.width / 2,
+                y: canvas.height / 2
+            };
             RenderableSystem_ts_1.RenderableSystem.context = context;
             CollidableSystem_ts_1.CollidableSystem.context = context;
             CollidableSystem_ts_1.CollidableSystem.scoreEmitter = scoreEmitter;
@@ -1967,7 +2258,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
             getRandomVelocity = () => {
                 return {
                     x: (Math.random() >= 0.5 ? 1 : -1) * SPEED_MULTIPLIER,
-                    y: (Math.random() >= 0.5 ? 1 : -1) * SPEED_MULTIPLIER
+                    y: Math.random() * SPEED_MULTIPLIER
                 };
             };
             world = new ecsy_ts_11.World();
@@ -1983,10 +2274,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
                 .registerSystem(RenderableSystem_ts_1.RenderableSystem)
                 .registerSystem(ColliderDebuggingSystem_ts_1.ColliderDebuggingSystem);
             ball = BallFactory_ts_1.ballFactory(world, {
-                position: {
-                    x: canvas.width / 2,
-                    y: canvas.height / 2
-                },
+                position: center,
                 dimensions: {
                     width: 20,
                     height: 20
@@ -1996,10 +2284,24 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
                 },
                 velocity: getRandomVelocity()
             });
+            resetBall = (ball) => {
+                const position = ball.getMutableComponent(Position_ts_5.default);
+                const velocity = ball.getMutableComponent(Velocity_ts_4.default);
+                const randoVelocity = getRandomVelocity();
+                position.x = center.x;
+                position.y = center.y;
+                velocity.x = randoVelocity.x;
+                velocity.y = randoVelocity.y;
+            };
+            scoreEmitter.on("score", (data) => {
+                console.log(data.playerScored);
+                scoreBoard.updateScore(data);
+                resetBall(ball);
+            });
             lastTime = performance.now();
             run();
         }
     };
 });
 
-__instantiate("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/app", false);
+__instantiate("file:///home/trippyak/Documents/Deno/denoFun/pong/app", false);

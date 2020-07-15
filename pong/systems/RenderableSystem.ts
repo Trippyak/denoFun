@@ -7,7 +7,7 @@ import TwoDimensions from "../components/TwoDimensions.ts";
 
 class RenderableSystem extends System
 {
-   execute(delta: number, time: number)
+    execute(delta: number, time: number)
     {
         RenderableSystem.context.fillStyle = "#000000";
         RenderableSystem.context.fillRect(0, 0, RenderableSystem.context.canvas.width, RenderableSystem.context.canvas.height);

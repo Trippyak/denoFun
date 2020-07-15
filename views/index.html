@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
+    
+    <link rel="stylesheet" href="/pong/ui/ScoreBoard/public/global.css">
+    <link rel="stylesheet" href="/pong/ui/ScoreBoard/public/build/bundle.css">
 
     <style>
         html, body {
           margin: 0;
           padding: 0;
+        }
+
+        #game-area {
+            position: absolute;
+            z-index: 0;
+            top: 0;
         }
     </style>
 
@@ -16,5 +25,6 @@
 </head>
 <body>
     <canvas id="game-area"></canvas>
+    <div id="score-board"></div>
 </body>
 </html>

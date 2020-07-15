@@ -29,48 +29,33 @@ type IAxisAlignedBoundingBox =
     }
 };
 
-interface IFactory
-{
-    <T>(props: T): (entity: _Entity) => _Entity;
-}
-
 type IMovable2D = I2D & IMovable;
 type ICollidableMovable2D = IAxisAlignedBoundingBox & IMovable2D;
 
-const create2D: IFactory =
-    <I2D>(props: I2D) =>
-        (entity: _Entity) => {
-            const { position, dimensions, shape } = props;
-            return entity
-                    .addComponent(Position, position)
-                    .addComponent(TwoDimensions, dimensions)
-                    .addComponent(Shape, shape)
-                    .addComponent(Renderable);
-        }
+const create2D = (entity: _Entity, props: I2D) => {
+    const { position, dimensions, shape } = props;
+    return entity
+            .addComponent(Position, position)
+            .addComponent(TwoDimensions, dimensions)
+            .addComponent(Shape, shape)
+            .addComponent(Renderable);
+}
 
-// {
-//     console.log(props);
-//     
-// }
+const createMovable = (entity: _Entity, props: IMovable) => {
+    const { velocity } = props;
+    return entity.addComponent(Velocity, velocity);
+}
 
-const createMovable: IFactory =
-    <IMovable>(props: IMovable) =>
-        (entity: _Entity) => {
-            const { velocity } = props;
-            return entity.addComponent(Velocity, velocity);
-        }
+const createCollidable=
+    (entity: _Entity, props: I2D) => {
+    props.bounds = createBoundingBox(props);
+    return entity.addComponent(AxisAlignedBoundingBox, props);
+}
 
-const createCollidable: IFactory =
-    <I2D>(props: I2D) =>
-        (entity: _Entity) => {
-            props.bounds = createBoundingBox(props);
-            return entity.addComponent(AxisAlignedBoundingBox, props);
-        }
+const createMovable2D = (entity: _Entity, props: IMovable2D) => createMovable(create2D(entity, props), props);
 
-// const createMovable2D = (entity: _Entity, props: IMovable2D) => createMovable(create2D(entity, props), props);
-
-// const createCollidableMovable2D =
-//     (entity: _Entity, props: ICollidableMovable2D) => createCollidable(createMovable2D(entity, props), props);
+const createCollidableMovable2D =
+    (entity: _Entity, props: ICollidableMovable2D) => createCollidable(createMovable2D(entity, props), props);
 
 const createBoundingBox = (props: I2D): IAxisAlignedBoundingBox => {
     const left = props.position.x;
@@ -93,6 +78,5 @@ const createBoundingBox = (props: I2D): IAxisAlignedBoundingBox => {
 export function ballFactory(world: World, props: ICollidableMovable2D) : _Entity{
     const ball: IMovable2D = world.createEntity("Ball");
     props.bounds = createBoundingBox(props);
-    console.log(props);
     return createCollidableMovable2D(ball, props);
 }

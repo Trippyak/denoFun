@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { World } from "./deps/ecsy.ts";
+import { World, _Entity } from "./deps/ecsy.ts";
 import {ballFactory} from "./factories/BallFactory.ts";
 import Position from "./components/Position.ts";
 import Velocity from "./components/Velocity.ts";
@@ -13,15 +13,25 @@ import { CollidableSystem } from "./systems/CollidableSystem.ts";
 import { ColliderDebuggingSystem } from "./systems/ColliderDebuggingSystem.ts";
 import ScoreEmitter from "./emitters/ScoreEmitter.ts";
 
+import { ScoreBoard } from "./ui/ScoreBoard/public/build/bundle.js";
+
+const scoreEmitter = new ScoreEmitter();
+const scoreBoard = new ScoreBoard({
+    target: document.getElementById("score-board")
+});
+
 const canvas = document.getElementById("game-area");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 const context = canvas.getContext("2d");
 
-const scoreEmitter = new ScoreEmitter();
-scoreEmitter.on("score", (data) => {
-    console.log(data.playerScored);
-});
+
+
+const center = {
+    x: canvas.width / 2
+    , y: canvas.height / 2
+}
 
 RenderableSystem.context = context;
 CollidableSystem.context = context;
@@ -34,7 +44,7 @@ const SPEED_MULTIPLIER = 0.1;
 const getRandomVelocity = () => {
     return {
         x: (Math.random() >= 0.5 ? 1 : -1) * SPEED_MULTIPLIER
-        , y: (Math.random() >= 0.5 ? 1 : -1) * SPEED_MULTIPLIER
+        , y: Math.random() * SPEED_MULTIPLIER
     }
 }
 
@@ -52,10 +62,7 @@ world
 .registerSystem(ColliderDebuggingSystem);
 
 const ball = ballFactory(world, {
-    position: {
-        x: canvas.width / 2
-        , y: canvas.height / 2
-    }
+    position: center
     , dimensions: {
         width: 20
         , height: 20
@@ -64,6 +71,31 @@ const ball = ballFactory(world, {
         primitive: "box"
     }
     , velocity: getRandomVelocity()
+});
+
+const resetBall = (ball: _Entity) => {
+    const position: Position = ball.getMutableComponent(Position);
+    const velocity: Velocity = ball.getMutableComponent(Velocity);
+    const randoVelocity = getRandomVelocity();
+    position.x = center.x;
+    position.y = center.y;
+    velocity.x = randoVelocity.x;
+    velocity.y = randoVelocity.y;
+}
+
+scoreEmitter.on("score", (data) => {
+    console.log(data.playerScored);
+    scoreBoard.updateScore(data);
+    resetBall(ball);
+});
+
+
+document.addEventListener("keydown", (event) => {
+    
+});
+
+document.addEventListener("keyup", (event) => {
+
 });
 
 function run()

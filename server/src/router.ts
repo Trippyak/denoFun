@@ -4,6 +4,7 @@ const componentRouter = new Router();
 
 const components = [
     "/basicComp"
+    , "/pong/ui/ScoreBoard"
 ];
 
 const dependencies = [
