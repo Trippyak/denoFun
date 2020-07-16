@@ -183,7 +183,7 @@ const isValidKey = (key: string): key is GameControls => {
 const updateKeyBoard = (controller: _Entity & IController, isKeyDown: boolean, key: GameControls) => {
     let keyBoard: KeyBoard = controller.getComponent(KeyBoard);
     
-    if (isValidKey(key) && keyBoard[key] !== isKeyDown)
+    if (keyBoard[key] !== isKeyDown) 
     {
         keyBoard = controller.getMutableComponent(KeyBoard);
         keyBoard[key] = isKeyDown;
@@ -193,7 +193,7 @@ const updateKeyBoard = (controller: _Entity & IController, isKeyDown: boolean, k
 
 document.addEventListener("keydown", (event) => {
     const key: GameControls = event.key;
-    if (key === "w" || key === 's')
+    if (key === "w" || key === "s")
         updateKeyBoard(playerOneController, true, key);
     else if (key === "ArrowUp" || key === "ArrowDown")
         updateKeyBoard(playerTwoController, true, key)
@@ -201,7 +201,7 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("keyup", (event) => {
     const key: GameControls = event.key;
-    if (key === "w" || key === 's')
+    if (key === "w" || key === "s")
         updateKeyBoard(playerOneController, false, key);
     else if (key === "ArrowUp" || key === "ArrowDown")
         updateKeyBoard(playerTwoController, false, key)

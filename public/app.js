@@ -2557,7 +2557,7 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
             };
             updateKeyBoard = (controller, isKeyDown, key) => {
                 let keyBoard = controller.getComponent(mod_ts_2.KeyBoard);
-                if (isValidKey(key) && keyBoard[key] !== isKeyDown) {
+                if (keyBoard[key] !== isKeyDown) {
                     keyBoard = controller.getMutableComponent(mod_ts_2.KeyBoard);
                     keyBoard[key] = isKeyDown;
                     keyBoard.currentKey = isKeyDown ? key : undefined;
@@ -2565,14 +2565,14 @@ System.register("file:///home/trippyak/Documents/Deno/svelteClientAPITest/pong/a
             };
             document.addEventListener("keydown", (event) => {
                 const key = event.key;
-                if (key === "w" || key === 's')
+                if (key === "w" || key === "s")
                     updateKeyBoard(playerOneController, true, key);
                 else if (key === "ArrowUp" || key === "ArrowDown")
                     updateKeyBoard(playerTwoController, true, key);
             });
             document.addEventListener("keyup", (event) => {
                 const key = event.key;
-                if (key === "w" || key === 's')
+                if (key === "w" || key === "s")
                     updateKeyBoard(playerOneController, false, key);
                 else if (key === "ArrowUp" || key === "ArrowDown")
                     updateKeyBoard(playerTwoController, false, key);
