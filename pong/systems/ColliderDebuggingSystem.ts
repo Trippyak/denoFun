@@ -5,12 +5,16 @@ import Position from "../components/Position.ts";
 
 class ColliderDebuggingSystem extends System
 {
+    init()
+    {
+        this.ctx = this.world.options.context;
+    }
+
     execute(delta: number, time: number)
     {
-        const ctx = ColliderDebuggingSystem.context;
         this.queries.collider.results.forEach((entity: _Entity) => {
             const bounds: AxisAlignedBoundingBox = entity.getComponent(AxisAlignedBoundingBox);
-            this.drawDebugRect(ctx, bounds);
+            this.drawDebugRect(this.ctx, bounds);
         });
     }
     
@@ -21,7 +25,7 @@ class ColliderDebuggingSystem extends System
         ctx.save();
         ctx.lineWidth = 2;
         ctx.strokeStyle = "#00ff00";
-        ctx.strokeRect(bounds.left - width / 2, bounds.top - height / 2, width, height);
+        ctx.strokeRect(bounds.left, bounds.top, width, height);
         ctx.restore();
     }
 }

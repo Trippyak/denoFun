@@ -7,21 +7,22 @@ class MovableSystem extends System
 {
     execute(delta: number, time: number)
     {
+        const speed = this.world.options.speed;
         let movingQuery = this.queries.moving;
 
-        let updatePosition = this.update(delta);
+        let updatePosition = this.update(delta, speed);
 
-        movingQuery.changed.forEach(updatePosition);
+        // movingQuery.changed.forEach(updatePosition);
         movingQuery.results.forEach(updatePosition);
     }
 
-    update = (delta) => (entity: _Entity) =>
+    update = (delta, speed) => (entity: _Entity) =>
     {
         const velocity: Velocity = entity.getComponent(Velocity);
         const position: Position = entity.getMutableComponent(Position);
         
-        position.x += velocity.x * delta;
-        position.y += velocity.y * delta;
+        position.x += velocity.x * speed * delta;
+        position.y += velocity.y * speed * delta;
     }
 }
 

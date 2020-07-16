@@ -1,11 +1,18 @@
 //@ts-nocheck
-import { World, _Entity } from "../deps/ecsy.ts";
+import { World, _Entity, TagComponent } from "../deps/ecsy.ts";
 import Position from "../components/Position.ts";
 import Velocity from "../components/Velocity.ts";
 import Shape from "../components/Shape.ts";
 import Renderable from "../components/Renderable.ts";
 import TwoDimensions from "../components/TwoDimensions.ts";
 import AxisAlignedBoundingBox from "../components/AxisAlignedBoundingBox.ts";
+import ControllerTag from "../components/ControllerTag.ts";
+import KeyBoard from "../components/KeyBoard.ts";
+import ControllerEmitter from "../emitters/ControllerEmitter.ts";
+import { IController } from "../IController.ts";
+import Owner from "../components/Owner.ts";
+import Paddle from '../components/Paddle.ts';
+import Ball from "../components/Ball.ts";
 
 type I2D = 
 {
@@ -73,10 +80,55 @@ const createBoundingBox = (props: I2D): IAxisAlignedBoundingBox => {
     };
 }
 
-// const ballFactory = ()
-
-export function ballFactory(world: World, props: ICollidableMovable2D) : _Entity{
-    const ball: IMovable2D = world.createEntity("Ball");
+function ballFactory (world: World, props: ICollidableMovable2D) : _Entity & ICollidableMovable2D {
+    const ball: _Entity & ICollidableMovable2D = world.createEntity("Ball");
+    ball.addComponent(Ball);
     props.bounds = createBoundingBox(props);
     return createCollidableMovable2D(ball, props);
+}
+ 
+
+const movePaddleUp = (entity: _Entity) => {
+    const velocity: Velocity = entity.getMutableComponent(Velocity);
+    velocity.y = 1;
+    console.log(velocity);
+}
+const movePaddleDown = (entity: _Entity) => {
+    const velocity: Velocity = entity.getMutableComponent(Velocity);
+    velocity.y = -1;
+    console.log(velocity);
+}
+
+const controllerFactory = (world: World, props: IController) : _Entity & IController => {
+    const controller: _Entity & IController = world.createEntity("Controller");
+    const { owner } = props;
+    controller
+    .addComponent(KeyBoard)
+    .addComponent(Owner, owner)
+    .addComponent(ControllerTag);
+
+    controller.emitter = new ControllerEmitter();
+    controller
+    .emitter
+    .on("w", movePaddleUp)
+    .on("s", movePaddleDown)
+    .on("ArrowUp", movePaddleDown)
+    .on("ArrowDown", movePaddleDown);
+    
+    return controller;
+}
+
+const paddleFactory = (world: World, name: string, playerTag: TagComponent, props: ICollidableMovable2D): _Entity & ICollidableMovable2D => {
+    const paddle: _Entity = world.createEntity(name);
+    paddle
+    .addComponent(Paddle)
+    .addComponent(playerTag);
+    props.bounds = createBoundingBox(props);
+    return createCollidableMovable2D(paddle, props);
+}
+
+export {
+    ballFactory
+    , controllerFactory
+    , paddleFactory
 }

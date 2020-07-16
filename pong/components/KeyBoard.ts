@@ -8,7 +8,7 @@ interface IIndexable
 
 class KeyBoard extends Component, implements IIndexable
 {
-    
+    currentKey: string;
 }
 
 const schema: IIndexable = {}

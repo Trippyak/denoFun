@@ -5,6 +5,8 @@ import Velocity from "../components/Velocity.ts";
 import Position from "../components/Position.ts";
 import AxisAlignedBoundingBox from "../components/AxisAlignedBoundingBox.ts";
 import TwoDimensions from "../components/TwoDimensions.ts";
+import Ball from "../components/Ball.ts";
+import Paddle from "../components/Paddle.ts";
 
 class CollidableSystem extends System
 {
@@ -19,18 +21,24 @@ class CollidableSystem extends System
 
         dynamicQuery.changed.forEach((entity: _Entity) => {
             const position: Position = entity.getComponent(Position);
-            const bounds: AxisAlignedBoundingBox = entity.getMutableComponent(AxisAlignedBoundingBox);
             const dimensions: TwoDimensions = entity.getComponent(TwoDimensions);
+            const bounds: AxisAlignedBoundingBox = entity.getMutableComponent(AxisAlignedBoundingBox);
 
             this.updateBounds(position, bounds, dimensions);
         });
 
-        dynamicQuery.results.forEach((entity: _Entity) => {
-            const bounds: AxisAlignedBoundingBox = entity.getMutableComponent(AxisAlignedBoundingBox);
+        this.queries.paddles.results.forEach((entity: _Entity) => {    
+            const bounds: AxisAlignedBoundingBox = entity.getComponent(AxisAlignedBoundingBox);
             const velocity: Velocity = entity.getMutableComponent(Velocity);
 
-            this.updateVelocity(velocity, bounds);
+            this.paddleWallCollision(velocity, bounds);
         });
+
+        const ball = this.queries.ball.results[0]
+        const ballBounds: AxisAlignedBoundingBox = ball.getComponent(AxisAlignedBoundingBox);
+        const ballVelocity: Velocity = ball.getMutableComponent(Velocity);
+
+        this.ballWallCollision(ballVelocity, ballBounds);
     }
 
     updateBounds(position: Position, bounds: AxisAlignedBoundingBox, dimensions: TwoDimensions)
@@ -41,18 +49,23 @@ class CollidableSystem extends System
         bounds.bottom = position.y + dimensions.height;
     }
 
-    updateVelocity(velocity: Velocity, bounds: AxisAlignedBoundingBox)
+    ballWallCollision(velocity: Velocity, bounds: AxisAlignedBoundingBox)
     {
-        if (bounds.left < 0 || bounds.right > this.context.canvas.width)
+        if (bounds.left <= 0 || bounds.right >= this.context.canvas.width)
         {
             this.world.options.scoreEmitter.emit("score", {
                 playerScored: bounds.left < 0 ? 2 : 1
             });
-            velocity.x *= -1;
         }
         
-        if (bounds.top < 0 || bounds.bottom > this.context.canvas.height)
+        if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
             velocity.y *= -1;
+    }
+
+    paddleWallCollision (velocity: Velocity, bounds: AxisAlignedBoundingBox)
+    {
+        if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
+            velocity.y = 0;
     }
 }
 
@@ -62,6 +75,12 @@ CollidableSystem.queries = {
         , listen: {
             changed: [Position]
         }
+    }
+    , ball: {
+        components: [Ball]
+    }
+    , paddles: {
+        components: [Paddle]
     }
 }
 

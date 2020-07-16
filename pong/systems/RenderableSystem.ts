@@ -34,8 +34,8 @@ class RenderableSystem extends System
     private drawBox(position: Position, dimensions: TwoDimensions)
     {
         this.context.beginPath();
-        this.context.rect(position.x - dimensions.width / 2
-                        , position.y - dimensions.height / 2
+        this.context.rect(position.x
+                        , position.y
                         , dimensions.width
                         , dimensions.height);
         this.context.fillStyle = "#ffffff";
