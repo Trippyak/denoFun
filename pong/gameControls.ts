@@ -1,3 +1,3 @@
-type GameControls = "w" | "s" | "ArrowUp" | "ArrowDown";
+type GameControls = "w" | "s" | "ArrowUp" | "ArrowDown" | "STOP";
 
 export default GameControls;

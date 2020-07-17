@@ -88,33 +88,25 @@ function ballFactory (world: World, props: ICollidableMovable2D) : _Entity & ICo
 }
  
 
-const movePaddleUp = (entity: _Entity) => {
+const updatePaddleValocity = (yMagnitude: number) => (entity: _Entity) => {
     const velocity: Velocity = entity.getMutableComponent(Velocity);
-    velocity.y = 1;
-    console.log(velocity);
+    velocity.y = yMagnitude;
 }
-const movePaddleDown = (entity: _Entity) => {
-    const velocity: Velocity = entity.getMutableComponent(Velocity);
-    velocity.y = -1;
-    console.log(velocity);
-}
+
+const movePaddleUp = updatePaddleValocity(-1);
+
+const movePaddleDown = updatePaddleValocity(1);
 
 const controllerFactory = (world: World, props: IController) : _Entity & IController => {
     const controller: _Entity & IController = world.createEntity("Controller");
-    const { owner } = props;
+    const { owner, emitter } = props;
     controller
     .addComponent(KeyBoard)
     .addComponent(Owner, owner)
     .addComponent(ControllerTag);
-
-    controller.emitter = new ControllerEmitter();
-    controller
-    .emitter
-    .on("w", movePaddleUp)
-    .on("s", movePaddleDown)
-    .on("ArrowUp", movePaddleDown)
-    .on("ArrowDown", movePaddleDown);
     
+    controller.emitter = emitter;
+
     return controller;
 }
 

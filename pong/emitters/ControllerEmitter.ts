@@ -5,7 +5,7 @@ class ControllerEmitter extends EventEmitter
 {
     emit(controlKey: GameControls, ...args: any[]): boolean
     {
-        return super.emit(controlKey, args);
+        return super.emit(controlKey, ...args);
     }
 
     on(controlKey: GameControls, handler: (...args: any[]) => void): this

@@ -30,6 +30,7 @@ import {
     , ColliderDebuggingSystem
     , InputSystem
  } from "./systems/mod.ts";
+import ControllerEmitter from "./emitters/ControllerEmitter.ts";
 
 const scoreEmitter = new ScoreEmitter();
 const scoreBoard = new ScoreBoard({
@@ -147,16 +148,48 @@ const paddleTwo = paddleFactory(world, "PaddleTwo", PlayerTwo, {
     }
 });
 
+const updatePaddleValocity = (yMagnitude: number) => (entity: _Entity) => {
+    const velocity: Velocity = entity.getMutableComponent(Velocity);
+    velocity.y = yMagnitude;
+    console.log(velocity);
+}
+
+const movePaddleUp = updatePaddleValocity(-1);
+const movePaddleDown = updatePaddleValocity(1);
+const stopPaddle = updatePaddleValocity(0);
+
+const movePaddleOneUp = () => movePaddleUp(paddleOne);
+const movePaddleOneDown = () => movePaddleDown(paddleOne);
+const stopPaddleOne = () => stopPaddle(paddleOne);
+
+const movePaddleTwoUp = () => movePaddleUp(paddleTwo);
+const movePaddleTwoDown = () => movePaddleDown(paddleTwo);
+const stopPaddleTwo = () => stopPaddle(paddleTwo);
+
+const playerOneControls = new ControllerEmitter();
+playerOneControls
+.on("w", movePaddleOneUp)
+.on("s", movePaddleOneDown)
+.on("STOP", stopPaddleOne);
+
+const playerTwoControls = new ControllerEmitter();
+playerTwoControls
+.on("ArrowUp", movePaddleTwoUp)
+.on("ArrowDown", movePaddleTwoDown)
+.on("STOP", stopPaddleTwo);
+
 const playerOneController = controllerFactory(world, {
     owner: {
         value: "playerOne"
     }
+    , emitter: playerOneControls
 });
 
 const playerTwoController = controllerFactory(world, {
     owner: {
         value: "playerTwo"
     }
+    , emitter: playerTwoControls
 });
 
 const resetBall = (ball: _Entity) => {
@@ -188,6 +221,7 @@ const updateKeyBoard = (controller: _Entity & IController, isKeyDown: boolean, k
         keyBoard = controller.getMutableComponent(KeyBoard);
         keyBoard[key] = isKeyDown;
         keyBoard.currentKey = isKeyDown ? key : undefined;
+        console.log(keyBoard.currentKey);
     }
 }
 

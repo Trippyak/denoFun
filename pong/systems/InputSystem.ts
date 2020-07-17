@@ -12,9 +12,6 @@ class InputSystem extends System
 {
     execute(delta: number, time: number)
     {
-        const playerOnePaddle: _Entity = this.queries.playerOnePaddle.results[0];
-        const playerTwoPladdle: _Entity = this.queries.playerTwoPaddle.results[0];
-
         this.queries.controllers.changed.forEach((entity: _Entity & IController) => {
             const keyBoard: KeyBoard = entity.getComponent(KeyBoard);
             const currentKey: GameControls = keyBoard.currentKey;
@@ -22,21 +19,22 @@ class InputSystem extends System
 
             if (owner.value === "playerOne")
             {
+                console.log(keyBoard.currentKey)
                 if (!currentKey)
-                    this.updatePaddleVelocity(0, playerOnePaddle);
+                    entity.emitter.emit("STOP");
                 else if (currentKey === "w")
-                    this.updatePaddleVelocity(-1, playerOnePaddle);
+                    entity.emitter.emit("w");
                 else if (currentKey === "s")
-                    this.updatePaddleVelocity(1, playerOnePaddle);
+                    entity.emitter.emit("s");
             }
             else if (owner.value === "playerTwo")
             {
                 if (!currentKey)
-                    this.updatePaddleVelocity(0, playerTwoPladdle);
+                    entity.emitter.emit("STOP");
                 else if (currentKey === "ArrowUp")
-                    this.updatePaddleVelocity(-1, playerTwoPladdle);
+                    entity.emitter.emit("ArrowUp");
                 else if (currentKey === "ArrowDown")
-                    this.updatePaddleVelocity(1, playerTwoPladdle);
+                    entity.emitter.emit("ArrowDown");
             }
         });
     }
@@ -54,12 +52,6 @@ InputSystem.queries = {
         , listen: {
             changed: [KeyBoard]
         }
-    }
-    , playerOnePaddle: {
-        components: [PlayerOne]
-    }
-    , playerTwoPaddle: {
-        components: [PlayerTwo]
     }
 }
 
