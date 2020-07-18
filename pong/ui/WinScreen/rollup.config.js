@@ -11,7 +11,7 @@ export default {
 	output: {
 		sourcemap: true,
 		format: 'es',
-		name: 'ScoreBoard',
+		name: 'WinScreen',
 		file: 'public/build/bundle.js'
 	},
 	plugins: [

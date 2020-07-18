@@ -1706,7 +1706,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/Scor
 });
 System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle", [], function (exports_6, context_6) {
     "use strict";
-    var p, $, g, m, y, x, b, _, v, E, j;
+    var p, g, $, m, y, x, b, w, S, T, N;
     var __moduleName = context_6 && context_6.id;
     function t() { }
     function e(t) { return t(); }
@@ -1714,68 +1714,67 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard
     function r(t) { t.forEach(e); }
     function o(t) { return "function" == typeof t; }
     function c(t, e) { return t != t ? e == e : t !== e || t && "object" == typeof t || "function" == typeof t; }
-    function i(t, e) { t.appendChild(e); }
-    function a(t) { t.parentNode.removeChild(t); }
+    function a(t, e) { t.appendChild(e); }
+    function u(t) { t.parentNode.removeChild(t); }
     function f(t) { return document.createElement(t); }
-    function u(t) { return document.createTextNode(t); }
-    function s() { return u(" "); }
-    function l(t, e, n) { null == n ? t.removeAttribute(e) : t.getAttribute(e) !== n && t.setAttribute(e, n); }
+    function i(t) { return document.createTextNode(t); }
+    function l() { return i(" "); }
+    function s(t, e, n) { null == n ? t.removeAttribute(e) : t.getAttribute(e) !== n && t.setAttribute(e, n); }
     function d(t, e) { e = "" + e, t.wholeText !== e && (t.data = e); }
     function h(t) { p = t; }
-    function S(t) { m.push(t); }
-    function w() { if (!_) {
-        _ = !0;
+    function _(t) { m.push(t); }
+    function v() { if (!w) {
+        w = !0;
         do {
-            for (let t = 0; t < $.length; t += 1) {
-                const e = $[t];
-                h(e), P(e.$$);
+            for (let t = 0; t < g.length; t += 1) {
+                const e = g[t];
+                h(e), O(e.$$);
             }
-            for ($.length = 0; g.length;)
-                g.pop()();
+            for (g.length = 0; $.length;)
+                $.pop()();
             for (let t = 0; t < m.length; t += 1) {
                 const e = m[t];
-                v.has(e) || (v.add(e), e());
+                S.has(e) || (S.add(e), e());
             }
             m.length = 0;
-        } while ($.length);
+        } while (g.length);
         for (; y.length;)
             y.pop()();
-        b = !1, _ = !1, v.clear();
+        b = !1, w = !1, S.clear();
     } }
-    function P(t) { if (null !== t.fragment) {
+    function O(t) { if (null !== t.fragment) {
         t.update(), r(t.before_update);
         const e = t.dirty;
-        t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(S);
+        t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(_);
     } }
-    function A(t, e) { -1 === t.$$.dirty[0] && ($.push(t), b || (b = !0, x.then(w)), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31; }
-    function k(c, i, f, u, s, l, d = [-1]) { const $ = p; h(c); const g = i.props || {}, m = c.$$ = { fragment: null, ctx: null, props: l, update: t, not_equal: s, bound: n(), on_mount: [], on_destroy: [], before_update: [], after_update: [], context: new Map($ ? $.$$.context : []), callbacks: n(), dirty: d }; let y = !1; if (m.ctx = f ? f(c, g, (t, e, ...n) => { const r = n.length ? n[0] : e; return m.ctx && s(m.ctx[t], m.ctx[t] = r) && (m.bound[t] && m.bound[t](r), y && A(c, t)), e; }) : [], m.update(), y = !0, r(m.before_update), m.fragment = !!u && u(m.ctx), i.target) {
-        if (i.hydrate) {
-            const t = function (t) { return Array.from(t.childNodes); }(i.target);
-            m.fragment && m.fragment.l(t), t.forEach(a);
+    function E(t, e) { -1 === t.$$.dirty[0] && (g.push(t), b || (b = !0, x.then(v)), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31; }
+    function A(c, a, f, i, l, s, d = [-1]) { const g = p; h(c); const $ = a.props || {}, m = c.$$ = { fragment: null, ctx: null, props: s, update: t, not_equal: l, bound: n(), on_mount: [], on_destroy: [], before_update: [], after_update: [], context: new Map(g ? g.$$.context : []), callbacks: n(), dirty: d }; let y = !1; if (m.ctx = f ? f(c, $, (t, e, ...n) => { const r = n.length ? n[0] : e; return m.ctx && l(m.ctx[t], m.ctx[t] = r) && (m.bound[t] && m.bound[t](r), y && E(c, t)), e; }) : [], m.update(), y = !0, r(m.before_update), m.fragment = !!i && i(m.ctx), a.target) {
+        if (a.hydrate) {
+            const t = function (t) { return Array.from(t.childNodes); }(a.target);
+            m.fragment && m.fragment.l(t), t.forEach(u);
         }
         else
             m.fragment && m.fragment.c();
-        i.intro && ((x = c.$$.fragment) && x.i && (E.delete(x), x.i(b))), function (t, n, c) { const { fragment: i, on_mount: a, on_destroy: f, after_update: u } = t.$$; i && i.m(n, c), S(() => { const n = a.map(e).filter(o); f ? f.push(...n) : r(n), t.$$.on_mount = []; }), u.forEach(S); }(c, i.target, i.anchor), w();
-    } var x, b; h($); }
-    function C(e) { let n, r, o, c, p, h, $, g; return { c() { n = f("div"), r = f("h1"), o = u(e[0]), c = s(), p = f("h1"), p.textContent = "|", h = s(), $ = f("h1"), g = u(e[1]), l(r, "class", "left svelte-2rifwi"), l(p, "class", "center svelte-2rifwi"), l($, "class", "right svelte-2rifwi"), l(n, "class", "grid-container svelte-2rifwi"); }, m(t, e) { !function (t, e, n) { t.insertBefore(e, n || null); }(t, n, e), i(n, r), i(r, o), i(n, c), i(n, p), i(n, h), i(n, $), i($, g); }, p(t, [e]) { 1 & e && d(o, t[0]), 2 & e && d(g, t[1]); }, i: t, o: t, d(t) { t && a(n); } }; }
-    function N(t, e, n) { let { firstPlayerScore: r = 0 } = e, { secondPlayerScore: o = 0 } = e; return t.$set = t => { "firstPlayerScore" in t && n(0, r = t.firstPlayerScore), "secondPlayerScore" in t && n(1, o = t.secondPlayerScore); }, [r, o, t => { const { playerScored: e } = t; 1 === e ? n(0, r += 1) : 2 === e && n(1, o += 1); }]; }
+        a.intro && ((x = c.$$.fragment) && x.i && (T.delete(x), x.i(b))), function (t, n, c) { const { fragment: a, on_mount: u, on_destroy: f, after_update: i } = t.$$; a && a.m(n, c), _(() => { const n = u.map(e).filter(o); f ? f.push(...n) : r(n), t.$$.on_mount = []; }), i.forEach(_); }(c, a.target, a.anchor), v();
+    } var x, b; h(g); }
+    function k(e) { let n, r, o, c, p, h, g, $; return { c() { n = f("div"), r = f("h1"), o = i(e[0]), c = l(), p = f("h1"), p.textContent = "|", h = l(), g = f("h1"), $ = i(e[1]), s(r, "class", "left svelte-2rifwi"), s(p, "class", "center svelte-2rifwi"), s(g, "class", "right svelte-2rifwi"), s(n, "class", "grid-container svelte-2rifwi"); }, m(t, e) { !function (t, e, n) { t.insertBefore(e, n || null); }(t, n, e), a(n, r), a(r, o), a(n, c), a(n, p), a(n, h), a(n, g), a(g, $); }, p(t, [e]) { 1 & e && d(o, t[0]), 2 & e && d($, t[1]); }, i: t, o: t, d(t) { t && u(n); } }; }
+    function C(t, e, n) { let { playerOneScore: r = 0 } = e, { playerTwoScore: o = 0 } = e; return t.$set = t => { "playerOneScore" in t && n(0, r = t.playerOneScore), "playerTwoScore" in t && n(1, o = t.playerTwoScore); }, [r, o]; }
     return {
         setters: [],
         execute: function () {
-            $ = [], g = [], m = [], y = [], x = Promise.resolve();
+            g = [], $ = [], m = [], y = [], x = Promise.resolve();
             b = !1;
-            _ = !1;
-            v = new Set;
-            E = new Set;
-            j = class j extends class {
+            w = !1;
+            S = new Set;
+            T = new Set;
+            N = class N extends class {
                 $destroy() { !function (t, e) { const n = t.$$; null !== n.fragment && (r(n.on_destroy), n.fragment && n.fragment.d(e), n.on_destroy = n.fragment = null, n.ctx = []); }(this, 1), this.$destroy = t; }
                 $on(t, e) { const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []); return n.push(e), () => { const t = n.indexOf(e); -1 !== t && n.splice(t, 1); }; }
                 $set() { }
             } {
-                constructor(t) { super(), k(this, t, N, C, c, { firstPlayerScore: 0, secondPlayerScore: 1, updateScore: 2 }); }
-                get updateScore() { return this.$$.ctx[2]; }
+                constructor(t) { super(), A(this, t, C, k, c, { playerOneScore: 0, playerTwoScore: 1 }); }
             };
-            exports_6("ScoreBoard", j);
+            exports_6("ScoreBoard", N);
         }
     };
 });
@@ -2328,6 +2327,10 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
                         &&
                             (a.left < b.right && a.right > b.left);
                 }
+                paddleWallCollision(velocity, bounds) {
+                    if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
+                        velocity.y = 0;
+                }
                 ballCollisison(ball, paddleBounds) {
                     const leftQuarterScreen = this.context.canvas.width * 0.25;
                     const rightQuarterScreen = 1 - leftQuarterScreen;
@@ -2339,10 +2342,6 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
                     }
                     else if (ballBounds.right > rightQuarterScreen)
                         this.ballPaddleTwoCollision(ballVelocity, paddleBounds["two"], ballBounds);
-                }
-                paddleWallCollision(velocity, bounds) {
-                    if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
-                        velocity.y = 0;
                 }
             };
             exports_25("CollidableSystem", CollidableSystem);
@@ -2455,7 +2454,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Rende
             exports_27("RenderableSystem", RenderableSystem);
             RenderableSystem.queries = {
                 renderable: {
-                    components: [Renderable_ts_2.default, Shape_ts_2.default]
+                    components: [Renderable_ts_2.default]
                 }
             };
         }
@@ -2488,7 +2487,6 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Input
                         const currentKey = keyBoard.currentKey;
                         const owner = entity.getComponent(Owner_ts_2.default);
                         if (owner.value === "playerOne") {
-                            console.log(keyBoard.currentKey);
                             if (!currentKey)
                                 entity.emitter.emit("STOP");
                             else if (currentKey === "w")
@@ -2550,10 +2548,82 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/mod",
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ScoreEmitter", "file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle", "file:///home/trippyak/Documents/Deno/denoFun/pong/factories/GameEntityFactories", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ControllerEmitter"], function (exports_30, context_30) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/ui/WinScreen/public/build/bundle", [], function (exports_30, context_30) {
     "use strict";
-    var ecsy_ts_18, ScoreEmitter_ts_1, bundle_js_1, GameEntityFactories_ts_1, mod_ts_4, mod_ts_5, ControllerEmitter_ts_1, scoreEmitter, scoreBoard, canvas, context, center, SPEED_MULTIPLIER, getRandomVelocity, worldFactory, world, ball, paddleHeight, paddleDimensions, paddleOne, paddleTwo, updatePaddleValocity, movePaddleUp, movePaddleDown, stopPaddle, movePaddleOneUp, movePaddleOneDown, stopPaddleOne, movePaddleTwoUp, movePaddleTwoDown, stopPaddleTwo, playerOneControls, playerTwoControls, playerOneController, playerTwoController, resetBall, isValidKey, updateKeyBoard, lastTime;
+    var s, p, h, $, g, m, y, b, _, E, j;
     var __moduleName = context_30 && context_30.id;
+    function t() { }
+    function n(t) { return t(); }
+    function e() { return Object.create(null); }
+    function r(t) { t.forEach(n); }
+    function o(t) { return "function" == typeof t; }
+    function c(t, n) { return t != t ? n == n : t !== n || t && "object" == typeof t || "function" == typeof t; }
+    function u(t, n) { t.appendChild(n); }
+    function i(t) { t.parentNode.removeChild(t); }
+    function f(t) { return document.createElement(t); }
+    function a(t) { return document.createTextNode(t); }
+    function l(t, n, e) { null == e ? t.removeAttribute(n) : t.getAttribute(n) !== e && t.setAttribute(n, e); }
+    function d(t) { s = t; }
+    function x(t) { $.push(t); }
+    function w() { if (!b) {
+        b = !0;
+        do {
+            for (let t = 0; t < p.length; t += 1) {
+                const n = p[t];
+                d(n), v(n.$$);
+            }
+            for (p.length = 0; h.length;)
+                h.pop()();
+            for (let t = 0; t < $.length; t += 1) {
+                const n = $[t];
+                _.has(n) || (_.add(n), n());
+            }
+            $.length = 0;
+        } while (p.length);
+        for (; g.length;)
+            g.pop()();
+        y = !1, b = !1, _.clear();
+    } }
+    function v(t) { if (null !== t.fragment) {
+        t.update(), r(t.before_update);
+        const n = t.dirty;
+        t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, n), t.after_update.forEach(x);
+    } }
+    function A(t, n) { -1 === t.$$.dirty[0] && (p.push(t), y || (y = !0, m.then(w)), t.$$.dirty.fill(0)), t.$$.dirty[n / 31 | 0] |= 1 << n % 31; }
+    function k(c, u, f, a, l, p, h = [-1]) { const $ = s; d(c); const g = u.props || {}, m = c.$$ = { fragment: null, ctx: null, props: p, update: t, not_equal: l, bound: e(), on_mount: [], on_destroy: [], before_update: [], after_update: [], context: new Map($ ? $.$$.context : []), callbacks: e(), dirty: h }; let y = !1; if (m.ctx = f ? f(c, g, (t, n, ...e) => { const r = e.length ? e[0] : n; return m.ctx && l(m.ctx[t], m.ctx[t] = r) && (m.bound[t] && m.bound[t](r), y && A(c, t)), n; }) : [], m.update(), y = !0, r(m.before_update), m.fragment = !!a && a(m.ctx), u.target) {
+        if (u.hydrate) {
+            const t = function (t) { return Array.from(t.childNodes); }(u.target);
+            m.fragment && m.fragment.l(t), t.forEach(i);
+        }
+        else
+            m.fragment && m.fragment.c();
+        u.intro && ((b = c.$$.fragment) && b.i && (E.delete(b), b.i(_))), function (t, e, c) { const { fragment: u, on_mount: i, on_destroy: f, after_update: a } = t.$$; u && u.m(e, c), x(() => { const e = i.map(n).filter(o); f ? f.push(...e) : r(e), t.$$.on_mount = []; }), a.forEach(x); }(c, u.target, u.anchor), w();
+    } var b, _; d($); }
+    function N(n) { let e, r, o, c, s; return { c() { e = f("div"), r = f("h1"), o = a("Player "), c = a(n[0]), s = a(" Wins!"), l(r, "class", "svelte-1s006rl"), l(e, "class", "grid-container svelte-1s006rl"); }, m(t, n) { !function (t, n, e) { t.insertBefore(n, e || null); }(t, e, n), u(e, r), u(r, o), u(r, c), u(r, s); }, p(t, [n]) { 1 & n && function (t, n) { n = "" + n, t.wholeText !== n && (t.data = n); }(c, t[0]); }, i: t, o: t, d(t) { t && i(e); } }; }
+    function S(t, n, e) { let { winner: r } = n; return t.$set = t => { "winner" in t && e(0, r = t.winner); }, [r]; }
+    return {
+        setters: [],
+        execute: function () {
+            p = [], h = [], $ = [], g = [], m = Promise.resolve();
+            y = !1;
+            b = !1;
+            _ = new Set;
+            E = new Set;
+            j = class j extends class {
+                $destroy() { !function (t, n) { const e = t.$$; null !== e.fragment && (r(e.on_destroy), e.fragment && e.fragment.d(n), e.on_destroy = e.fragment = null, e.ctx = []); }(this, 1), this.$destroy = t; }
+                $on(t, n) { const e = this.$$.callbacks[t] || (this.$$.callbacks[t] = []); return e.push(n), () => { const t = e.indexOf(n); -1 !== t && e.splice(t, 1); }; }
+                $set() { }
+            } {
+                constructor(t) { super(), k(this, t, S, N, c, { winner: 0 }); }
+            };
+            exports_30("WinScreen", j);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ScoreEmitter", "file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle", "file:///home/trippyak/Documents/Deno/denoFun/pong/factories/GameEntityFactories", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ControllerEmitter"], function (exports_31, context_31) {
+    "use strict";
+    var ecsy_ts_18, ScoreEmitter_ts_1, bundle_js_1, GameEntityFactories_ts_1, mod_ts_4, mod_ts_5, ControllerEmitter_ts_1, scoreEmitter, scoreBoard, canvas, context, center, SPEED_MULTIPLIER, getRandomVelocity, worldFactory, world, ball, paddleHeight, paddleDimensions, paddleOne, paddleTwo, updatePaddleValocity, movePaddleUp, movePaddleDown, stopPaddle, movePaddleOneUp, movePaddleOneDown, stopPaddleOne, movePaddleTwoUp, movePaddleTwoDown, stopPaddleTwo, playerOneControls, playerTwoControls, playerOneController, playerTwoController, serveBall, stopBall, playerOneScore, playerTwoScore, isValidKey, updateKeyBoard, lastTime;
+    var __moduleName = context_31 && context_31.id;
     function run() {
         var time = performance.now();
         var delta = time - lastTime;
@@ -2687,7 +2757,6 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
             updatePaddleValocity = (yMagnitude) => (entity) => {
                 const velocity = entity.getMutableComponent(mod_ts_4.Velocity);
                 velocity.y = yMagnitude;
-                console.log(velocity);
             };
             movePaddleUp = updatePaddleValocity(-1);
             movePaddleDown = updatePaddleValocity(1);
@@ -2720,7 +2789,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 },
                 emitter: playerTwoControls
             });
-            resetBall = (ball) => {
+            serveBall = (ball) => {
                 const position = ball.getMutableComponent(mod_ts_4.Position);
                 const velocity = ball.getMutableComponent(mod_ts_4.Velocity);
                 const randoVelocity = getRandomVelocity();
@@ -2729,9 +2798,41 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 velocity.x = randoVelocity.x;
                 velocity.y = randoVelocity.y;
             };
+            stopBall = (ball) => {
+                const position = ball.getMutableComponent(mod_ts_4.Position);
+                const velocity = ball.getMutableComponent(mod_ts_4.Velocity);
+                position.x = center.x;
+                position.y = center.y;
+                velocity.x = 0;
+                velocity.y = 0;
+                ball.removeComponent(mod_ts_4.Renderable);
+            };
+            playerOneScore = 0;
+            playerTwoScore = 0;
             scoreEmitter.on("score", (data) => {
-                scoreBoard.updateScore(data);
-                resetBall(ball);
+                const { playerScored } = data;
+                if (playerScored === 1)
+                    playerOneScore += 1;
+                else if (playerScored === 2)
+                    playerTwoScore += 1;
+                scoreBoard.$set({
+                    playerOneScore,
+                    playerTwoScore
+                });
+                if (playerOneScore == 3 || playerTwoScore === 3) {
+                    context_31.import("./ui/WinScreen/public/build/bundle.js").then((Module) => {
+                        const WinScreen = Module.WinScreen;
+                        const winScreen = new WinScreen({
+                            target: document.getElementById("win-screen"),
+                            props: {
+                                winner: playerScored
+                            }
+                        });
+                    });
+                    stopBall(ball);
+                }
+                else
+                    serveBall(ball);
             });
             isValidKey = (key) => {
                 const allowedKeys = ["w", "s", "ArrowUp", "ArrowDown"];
@@ -2743,7 +2844,6 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                     keyBoard = controller.getMutableComponent(mod_ts_4.KeyBoard);
                     keyBoard[key] = isKeyDown;
                     keyBoard.currentKey = isKeyDown ? key : undefined;
-                    console.log(keyBoard.currentKey);
                 }
             };
             document.addEventListener("keydown", (event) => {

@@ -56,7 +56,6 @@ const run = () => {
         const apples = new App({target: document.getElementById("apples")});
         
         apples.$set({name: "Apples"});
-        console.log(apples.name);
     })
     .catch((err) => {
         console.log(err);

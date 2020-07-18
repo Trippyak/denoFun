@@ -29,6 +29,7 @@ import {
     , ColliderDebuggingSystem
     , InputSystem
  } from "./systems/mod.ts";
+
 import ControllerEmitter from "./emitters/ControllerEmitter.ts";
 
 const scoreEmitter = new ScoreEmitter();
@@ -155,7 +156,6 @@ const paddleTwo = paddleFactory(world, {
 const updatePaddleValocity = (yMagnitude: number) => (entity: _Entity) => {
     const velocity: Velocity = entity.getMutableComponent(Velocity);
     velocity.y = yMagnitude;
-    console.log(velocity);
 }
 
 const movePaddleUp = updatePaddleValocity(-1);
@@ -196,7 +196,7 @@ const playerTwoController = controllerFactory(world, {
     , emitter: playerTwoControls
 });
 
-const resetBall = (ball: _Entity) => {
+const serveBall = (ball: _Entity) => {
     const position: Position = ball.getMutableComponent(Position);
     const velocity: Velocity = ball.getMutableComponent(Velocity);
     const randoVelocity = getRandomVelocity();
@@ -206,9 +206,49 @@ const resetBall = (ball: _Entity) => {
     velocity.y = randoVelocity.y;
 }
 
+const stopBall = (ball: _Entity) => {
+    const position: Position = ball.getMutableComponent(Position);
+    const velocity: Velocity = ball.getMutableComponent(Velocity);
+    
+    position.x = center.x;
+    position.y = center.y;
+    velocity.x = 0;
+    velocity.y = 0;
+    
+    ball.removeComponent(Renderable);
+}
+
+let playerOneScore = 0;
+let playerTwoScore = 0;
+
 scoreEmitter.on("score", (data) => {
-    scoreBoard.updateScore(data);
-    resetBall(ball);
+    const { playerScored } = data;
+    if (playerScored === 1)
+        playerOneScore += 1;
+    else if (playerScored === 2)
+        playerTwoScore += 1;
+
+    scoreBoard.$set({
+        playerOneScore
+        , playerTwoScore
+    });
+
+    if (playerOneScore == 3 || playerTwoScore === 3)
+    {
+        import("./ui/WinScreen/public/build/bundle.js")
+        .then((Module) => {
+            const WinScreen = Module.WinScreen;
+            const winScreen = new WinScreen({
+                target: document.getElementById("win-screen")
+                , props: {
+                    winner: playerScored
+                }
+            });
+        });
+        stopBall(ball);
+    }
+    else
+        serveBall(ball); 
 });
 
 const isValidKey = (key: string): key is GameControls => {
@@ -225,7 +265,6 @@ const updateKeyBoard = (controller: _Entity & IController, isKeyDown: boolean, k
         keyBoard = controller.getMutableComponent(KeyBoard);
         keyBoard[key] = isKeyDown;
         keyBoard.currentKey = isKeyDown ? key : undefined;
-        console.log(keyBoard.currentKey);
     }
 }
 

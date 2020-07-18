@@ -7,6 +7,9 @@
     
     <link rel="stylesheet" href="/pong/ui/ScoreBoard/public/global.css">
     <link rel="stylesheet" href="/pong/ui/ScoreBoard/public/build/bundle.css">
+    
+    <link rel="stylesheet" href="/pong/ui/WinScreen/public/global.css">
+    <link rel="stylesheet" href="/pong/ui/WinScreen/public/build/bundle.css">
 
     <style>
         html, body {
@@ -19,6 +22,14 @@
             z-index: 0;
             top: 0;
         }
+
+        #score-board {
+            z-index: 1;
+        }
+        
+        #win-screen {
+            z-index: 2;
+        }
     </style>
 
     <script type="module" src="/public/app.js"></script>
@@ -26,5 +37,6 @@
 <body>
     <canvas id="game-area"></canvas>
     <div id="score-board"></div>
+    <div id="win-screen"></div>
 </body>
 </html>

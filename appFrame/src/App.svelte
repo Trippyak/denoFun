@@ -6,7 +6,6 @@
 	let controlName;
 	
 	const update = (newControlName: string) => {
-		console.log(newControlName);
 		controls.some((control) => {
 			if (newControlName === control.name)
 			{
@@ -24,7 +23,6 @@
 			if (controlName === control.name)
 			{
 				tempControls[index].props = control.props;
-				console.log(controls);
 				return true;
 			}
 		});
@@ -33,7 +31,6 @@
 
 	$: {
 		props = updateControlsProps();
-		console.log("UPdatyeding")
 	}
 
 	const onControlClick = (event, controlName) => {

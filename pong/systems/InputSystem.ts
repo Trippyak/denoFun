@@ -4,7 +4,6 @@ import KeyBoard from "../components/KeyBoard.ts";
 import ControllerTag from "../components/ControllerTag.ts";
 import { IController } from "../IController.ts";
 import GameControls from "../gameControls.ts";
-import Velocity from "../components/Velocity.ts";
 import Owner from "../components/Owner.ts";
 
 class InputSystem extends System
@@ -18,7 +17,6 @@ class InputSystem extends System
 
             if (owner.value === "playerOne")
             {
-                console.log(keyBoard.currentKey)
                 if (!currentKey)
                     entity.emitter.emit("STOP");
                 else if (currentKey === "w")

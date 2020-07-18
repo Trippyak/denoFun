@@ -1,3 +1,3 @@
 import App from './App.svelte';
 
-export { App as ScoreBoard };
+export { App as WinScreen };

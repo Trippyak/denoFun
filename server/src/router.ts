@@ -5,6 +5,7 @@ const componentRouter = new Router();
 const components = [
     "/basicComp"
     , "/pong/ui/ScoreBoard"
+    , "/pong/ui/WinScreen"
 ];
 
 const dependencies = [

@@ -45,7 +45,7 @@ class RenderableSystem extends System
 
 RenderableSystem.queries = {
     renderable: {
-        components: [Renderable, Shape]
+        components: [Renderable]
     }
 }
 

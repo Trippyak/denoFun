@@ -1,20 +1,12 @@
 <script>
-	let firstPlayerScore = 0;
-	let secondPlayerScore = 0;
-
-	export const updateScore = (data) => {
-		const { playerScored } = data;
-		if (playerScored === 1)
-			firstPlayerScore += 1;
-		else if (playerScored === 2)
-			secondPlayerScore += 1;
-	}
+	export let playerOneScore = 0;
+	export let playerTwoScore = 0;
 </script>
 
 <div class="grid-container">
-	<h1 class="left">{firstPlayerScore}</h1>
+	<h1 class="left">{playerOneScore}</h1>
 	<h1 class="center">|</h1>
-	<h1 class="right">{secondPlayerScore}</h1>
+	<h1 class="right">{playerTwoScore}</h1>
 </div>
 
 <style>
