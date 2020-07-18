@@ -19,8 +19,7 @@ import {
     , Owner
     , Paddle
     , Ball
-    , PlayerOne
-    , PlayerTwo
+    , Player
 } from "./components/mod.ts";
 
 import { 
@@ -84,8 +83,7 @@ const world = worldFactory({context, scoreEmitter, speed: 0.2}
                                 , AxisAlignedBoundingBox
                                 , Renderable
                                 , ControllerTag
-                                , PlayerOne
-                                , PlayerTwo
+                                , Player
                                 , Paddle
                                 , Ball
                             ]
@@ -115,7 +113,7 @@ const paddleDimensions = {
     , height: paddleHeight
 };
 
-const paddleOne = paddleFactory(world, "PaddleOne", PlayerOne, {
+const paddleOne = paddleFactory(world, {
     position: {
         x: (center.x - (paddleDimensions.width / 2) ) - (canvas.width * 0.47)
         , y: center.y - (paddleDimensions.height / 2)
@@ -131,9 +129,12 @@ const paddleOne = paddleFactory(world, "PaddleOne", PlayerOne, {
         x: 0
         , y: 0
     }
+    , player: {
+        value: "one"
+    }
 });
 
-const paddleTwo = paddleFactory(world, "PaddleTwo", PlayerTwo, {
+const paddleTwo = paddleFactory(world, {
     position: {
         x: (center.x - (paddleDimensions.width / 2) ) - (1 - ((canvas.width * 0.47)))
         , y: center.y - (paddleDimensions.height / 2)
@@ -145,6 +146,9 @@ const paddleTwo = paddleFactory(world, "PaddleTwo", PlayerTwo, {
     , velocity: {
         x: 0
         , y: 0
+    }
+    , player: {
+        value: "two"
     }
 });
 

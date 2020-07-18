@@ -1788,172 +1788,10 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/gameControls"
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_8, context_8) {
-    "use strict";
-    var ecsy_ts_1, Position;
-    var __moduleName = context_8 && context_8.id;
-    return {
-        setters: [
-            function (ecsy_ts_1_1) {
-                ecsy_ts_1 = ecsy_ts_1_1;
-            }
-        ],
-        execute: function () {
-            Position = class Position extends ecsy_ts_1.Component {
-            };
-            Position.schema = {
-                x: { type: ecsy_ts_1.Types.Number },
-                y: { type: ecsy_ts_1.Types.Number }
-            };
-            exports_8("default", Position);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_9, context_9) {
-    "use strict";
-    var ecsy_ts_2, Velocity;
-    var __moduleName = context_9 && context_9.id;
-    return {
-        setters: [
-            function (ecsy_ts_2_1) {
-                ecsy_ts_2 = ecsy_ts_2_1;
-            }
-        ],
-        execute: function () {
-            Velocity = class Velocity extends ecsy_ts_2.Component {
-            };
-            Velocity.schema = {
-                x: { type: ecsy_ts_2.Types.Number },
-                y: { type: ecsy_ts_2.Types.Number }
-            };
-            exports_9("default", Velocity);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_10, context_10) {
-    "use strict";
-    var ecsy_ts_3, Shape;
-    var __moduleName = context_10 && context_10.id;
-    return {
-        setters: [
-            function (ecsy_ts_3_1) {
-                ecsy_ts_3 = ecsy_ts_3_1;
-            }
-        ],
-        execute: function () {
-            Shape = class Shape extends ecsy_ts_3.Component {
-            };
-            Shape.schema = {
-                primitive: {
-                    type: ecsy_ts_3.Types.String,
-                    default: "box"
-                }
-            };
-            exports_10("default", Shape);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_11, context_11) {
-    "use strict";
-    var ecsy_ts_4, Renderable;
-    var __moduleName = context_11 && context_11.id;
-    return {
-        setters: [
-            function (ecsy_ts_4_1) {
-                ecsy_ts_4 = ecsy_ts_4_1;
-            }
-        ],
-        execute: function () {
-            Renderable = class Renderable extends ecsy_ts_4.TagComponent {
-            };
-            exports_11("default", Renderable);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_12, context_12) {
-    "use strict";
-    var ecsy_ts_5, TwoDimensions;
-    var __moduleName = context_12 && context_12.id;
-    return {
-        setters: [
-            function (ecsy_ts_5_1) {
-                ecsy_ts_5 = ecsy_ts_5_1;
-            }
-        ],
-        execute: function () {
-            TwoDimensions = class TwoDimensions extends ecsy_ts_5.Component {
-            };
-            TwoDimensions.schema = {
-                width: { type: ecsy_ts_5.Types.Number },
-                height: { type: ecsy_ts_5.Types.Number }
-            };
-            exports_12("default", TwoDimensions);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_13, context_13) {
-    "use strict";
-    var ecsy_ts_6, AxisAlignedBoundingBox;
-    var __moduleName = context_13 && context_13.id;
-    return {
-        setters: [
-            function (ecsy_ts_6_1) {
-                ecsy_ts_6 = ecsy_ts_6_1;
-            }
-        ],
-        execute: function () {
-            AxisAlignedBoundingBox = class AxisAlignedBoundingBox extends ecsy_ts_6.Component {
-            };
-            AxisAlignedBoundingBox.schema = {
-                left: { type: ecsy_ts_6.Types.Number },
-                right: { type: ecsy_ts_6.Types.Number },
-                top: { type: ecsy_ts_6.Types.Number },
-                bottom: { type: ecsy_ts_6.Types.Number }
-            };
-            exports_13("default", AxisAlignedBoundingBox);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_14, context_14) {
-    "use strict";
-    var ecsy_ts_7, ControllerTag;
-    var __moduleName = context_14 && context_14.id;
-    return {
-        setters: [
-            function (ecsy_ts_7_1) {
-                ecsy_ts_7 = ecsy_ts_7_1;
-            }
-        ],
-        execute: function () {
-            ControllerTag = class ControllerTag extends ecsy_ts_7.TagComponent {
-            };
-            exports_14("default", ControllerTag);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_15, context_15) {
-    "use strict";
-    var ecsy_ts_8, KeyBoard, schema;
-    var __moduleName = context_15 && context_15.id;
-    return {
-        setters: [
-            function (ecsy_ts_8_1) {
-                ecsy_ts_8 = ecsy_ts_8_1;
-            }
-        ],
-        execute: function () {
-            KeyBoard = class KeyBoard extends ecsy_ts_8.Component {
-            };
-            schema = {};
-            KeyBoard.schema = schema;
-            exports_15("default", KeyBoard);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ControllerEmitter", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/eventEmitter"], function (exports_16, context_16) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ControllerEmitter", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/eventEmitter"], function (exports_8, context_8) {
     "use strict";
     var eventEmitter_ts_2, ControllerEmitter;
-    var __moduleName = context_16 && context_16.id;
+    var __moduleName = context_8 && context_8.id;
     return {
         setters: [
             function (eventEmitter_ts_2_1) {
@@ -1969,7 +1807,169 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/Cont
                     return super.on(controlKey, handler);
                 }
             };
-            exports_16("default", ControllerEmitter);
+            exports_8("default", ControllerEmitter);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_9, context_9) {
+    "use strict";
+    var ecsy_ts_1, Position;
+    var __moduleName = context_9 && context_9.id;
+    return {
+        setters: [
+            function (ecsy_ts_1_1) {
+                ecsy_ts_1 = ecsy_ts_1_1;
+            }
+        ],
+        execute: function () {
+            Position = class Position extends ecsy_ts_1.Component {
+            };
+            Position.schema = {
+                x: { type: ecsy_ts_1.Types.Number },
+                y: { type: ecsy_ts_1.Types.Number }
+            };
+            exports_9("default", Position);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_10, context_10) {
+    "use strict";
+    var ecsy_ts_2, Velocity;
+    var __moduleName = context_10 && context_10.id;
+    return {
+        setters: [
+            function (ecsy_ts_2_1) {
+                ecsy_ts_2 = ecsy_ts_2_1;
+            }
+        ],
+        execute: function () {
+            Velocity = class Velocity extends ecsy_ts_2.Component {
+            };
+            Velocity.schema = {
+                x: { type: ecsy_ts_2.Types.Number },
+                y: { type: ecsy_ts_2.Types.Number }
+            };
+            exports_10("default", Velocity);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_11, context_11) {
+    "use strict";
+    var ecsy_ts_3, TwoDimensions;
+    var __moduleName = context_11 && context_11.id;
+    return {
+        setters: [
+            function (ecsy_ts_3_1) {
+                ecsy_ts_3 = ecsy_ts_3_1;
+            }
+        ],
+        execute: function () {
+            TwoDimensions = class TwoDimensions extends ecsy_ts_3.Component {
+            };
+            TwoDimensions.schema = {
+                width: { type: ecsy_ts_3.Types.Number },
+                height: { type: ecsy_ts_3.Types.Number }
+            };
+            exports_11("default", TwoDimensions);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_12, context_12) {
+    "use strict";
+    var ecsy_ts_4, Shape;
+    var __moduleName = context_12 && context_12.id;
+    return {
+        setters: [
+            function (ecsy_ts_4_1) {
+                ecsy_ts_4 = ecsy_ts_4_1;
+            }
+        ],
+        execute: function () {
+            Shape = class Shape extends ecsy_ts_4.Component {
+            };
+            Shape.schema = {
+                primitive: {
+                    type: ecsy_ts_4.Types.String,
+                    default: "box"
+                }
+            };
+            exports_12("default", Shape);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_13, context_13) {
+    "use strict";
+    var ecsy_ts_5, Renderable;
+    var __moduleName = context_13 && context_13.id;
+    return {
+        setters: [
+            function (ecsy_ts_5_1) {
+                ecsy_ts_5 = ecsy_ts_5_1;
+            }
+        ],
+        execute: function () {
+            Renderable = class Renderable extends ecsy_ts_5.TagComponent {
+            };
+            exports_13("default", Renderable);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_14, context_14) {
+    "use strict";
+    var ecsy_ts_6, AxisAlignedBoundingBox;
+    var __moduleName = context_14 && context_14.id;
+    return {
+        setters: [
+            function (ecsy_ts_6_1) {
+                ecsy_ts_6 = ecsy_ts_6_1;
+            }
+        ],
+        execute: function () {
+            AxisAlignedBoundingBox = class AxisAlignedBoundingBox extends ecsy_ts_6.Component {
+            };
+            AxisAlignedBoundingBox.schema = {
+                left: { type: ecsy_ts_6.Types.Number },
+                right: { type: ecsy_ts_6.Types.Number },
+                top: { type: ecsy_ts_6.Types.Number },
+                bottom: { type: ecsy_ts_6.Types.Number }
+            };
+            exports_14("default", AxisAlignedBoundingBox);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_15, context_15) {
+    "use strict";
+    var ecsy_ts_7, KeyBoard, schema;
+    var __moduleName = context_15 && context_15.id;
+    return {
+        setters: [
+            function (ecsy_ts_7_1) {
+                ecsy_ts_7 = ecsy_ts_7_1;
+            }
+        ],
+        execute: function () {
+            KeyBoard = class KeyBoard extends ecsy_ts_7.Component {
+            };
+            schema = {};
+            KeyBoard.schema = schema;
+            exports_15("default", KeyBoard);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_16, context_16) {
+    "use strict";
+    var ecsy_ts_8, ControllerTag;
+    var __moduleName = context_16 && context_16.id;
+    return {
+        setters: [
+            function (ecsy_ts_8_1) {
+                ecsy_ts_8 = ecsy_ts_8_1;
+            }
+        ],
+        execute: function () {
+            ControllerTag = class ControllerTag extends ecsy_ts_8.TagComponent {
+            };
+            exports_16("default", ControllerTag);
         }
     };
 });
@@ -1996,19 +1996,10 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ow
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/IController", [], function (exports_18, context_18) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Player", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_18, context_18) {
     "use strict";
+    var ecsy_ts_10, Player;
     var __moduleName = context_18 && context_18.id;
-    return {
-        setters: [],
-        execute: function () {
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_19, context_19) {
-    "use strict";
-    var ecsy_ts_10, Paddle;
-    var __moduleName = context_19 && context_19.id;
     return {
         setters: [
             function (ecsy_ts_10_1) {
@@ -2016,16 +2007,22 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Pa
             }
         ],
         execute: function () {
-            Paddle = class Paddle extends ecsy_ts_10.TagComponent {
+            Player = class Player extends ecsy_ts_10.Component {
             };
-            exports_19("default", Paddle);
+            Player.schema = {
+                value: {
+                    type: ecsy_ts_10.Types.String,
+                    default: "one"
+                }
+            };
+            exports_18("default", Player);
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_20, context_20) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_19, context_19) {
     "use strict";
-    var ecsy_ts_11, Ball;
-    var __moduleName = context_20 && context_20.id;
+    var ecsy_ts_11, Paddle;
+    var __moduleName = context_19 && context_19.id;
     return {
         setters: [
             function (ecsy_ts_11_1) {
@@ -2033,23 +2030,33 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ba
             }
         ],
         execute: function () {
-            Ball = class Ball extends ecsy_ts_11.TagComponent {
+            Paddle = class Paddle extends ecsy_ts_11.TagComponent {
+            };
+            exports_19("default", Paddle);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_20, context_20) {
+    "use strict";
+    var ecsy_ts_12, Ball;
+    var __moduleName = context_20 && context_20.id;
+    return {
+        setters: [
+            function (ecsy_ts_12_1) {
+                ecsy_ts_12 = ecsy_ts_12_1;
+            }
+        ],
+        execute: function () {
+            Ball = class Ball extends ecsy_ts_12.TagComponent {
             };
             exports_20("default", Ball);
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/GameEntityFactories", ["file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Owner", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball"], function (exports_21, context_21) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod", ["file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Owner", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Player", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball"], function (exports_21, context_21) {
     "use strict";
-    var Position_ts_1, Velocity_ts_1, Shape_ts_1, Renderable_ts_1, TwoDimensions_ts_1, AxisAlignedBoundingBox_ts_1, ControllerTag_ts_1, KeyBoard_ts_1, Owner_ts_1, Paddle_ts_1, Ball_ts_1, create2D, createMovable, createCollidable, createMovable2D, createCollidableMovable2D, createBoundingBox, updatePaddleValocity, movePaddleUp, movePaddleDown, controllerFactory, paddleFactory;
+    var Position_ts_1, Velocity_ts_1, TwoDimensions_ts_1, Shape_ts_1, Renderable_ts_1, AxisAlignedBoundingBox_ts_1, KeyBoard_ts_1, ControllerTag_ts_1, Owner_ts_1, Player_ts_1, Paddle_ts_1, Ball_ts_1;
     var __moduleName = context_21 && context_21.id;
-    function ballFactory(world, props) {
-        const ball = world.createEntity("Ball");
-        ball.addComponent(Ball_ts_1.default);
-        props.bounds = createBoundingBox(props);
-        return createCollidableMovable2D(ball, props);
-    }
-    exports_21("ballFactory", ballFactory);
     return {
         setters: [
             function (Position_ts_1_1) {
@@ -2058,26 +2065,29 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/Gam
             function (Velocity_ts_1_1) {
                 Velocity_ts_1 = Velocity_ts_1_1;
             },
+            function (TwoDimensions_ts_1_1) {
+                TwoDimensions_ts_1 = TwoDimensions_ts_1_1;
+            },
             function (Shape_ts_1_1) {
                 Shape_ts_1 = Shape_ts_1_1;
             },
             function (Renderable_ts_1_1) {
                 Renderable_ts_1 = Renderable_ts_1_1;
             },
-            function (TwoDimensions_ts_1_1) {
-                TwoDimensions_ts_1 = TwoDimensions_ts_1_1;
-            },
             function (AxisAlignedBoundingBox_ts_1_1) {
                 AxisAlignedBoundingBox_ts_1 = AxisAlignedBoundingBox_ts_1_1;
-            },
-            function (ControllerTag_ts_1_1) {
-                ControllerTag_ts_1 = ControllerTag_ts_1_1;
             },
             function (KeyBoard_ts_1_1) {
                 KeyBoard_ts_1 = KeyBoard_ts_1_1;
             },
+            function (ControllerTag_ts_1_1) {
+                ControllerTag_ts_1 = ControllerTag_ts_1_1;
+            },
             function (Owner_ts_1_1) {
                 Owner_ts_1 = Owner_ts_1_1;
+            },
+            function (Player_ts_1_1) {
+                Player_ts_1 = Player_ts_1_1;
             },
             function (Paddle_ts_1_1) {
                 Paddle_ts_1 = Paddle_ts_1_1;
@@ -2087,21 +2097,54 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/Gam
             }
         ],
         execute: function () {
+            exports_21("Position", Position_ts_1.default);
+            exports_21("Velocity", Velocity_ts_1.default);
+            exports_21("TwoDimensions", TwoDimensions_ts_1.default);
+            exports_21("Shape", Shape_ts_1.default);
+            exports_21("Renderable", Renderable_ts_1.default);
+            exports_21("AxisAlignedBoundingBox", AxisAlignedBoundingBox_ts_1.default);
+            exports_21("KeyBoard", KeyBoard_ts_1.default);
+            exports_21("ControllerTag", ControllerTag_ts_1.default);
+            exports_21("Owner", Owner_ts_1.default);
+            exports_21("Player", Player_ts_1.default);
+            exports_21("Paddle", Paddle_ts_1.default);
+            exports_21("Ball", Ball_ts_1.default);
+        }
+    };
+});
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/GameEntityFactories", ["file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod"], function (exports_22, context_22) {
+    "use strict";
+    var mod_ts_2, create2D, createMovable, createCollidable, createMovable2D, createCollidableMovable2D, createBoundingBox, controllerFactory, paddleFactory;
+    var __moduleName = context_22 && context_22.id;
+    function ballFactory(world, props) {
+        const ball = world.createEntity("Ball");
+        ball.addComponent(mod_ts_2.Ball);
+        props.bounds = createBoundingBox(props);
+        return createCollidableMovable2D(ball, props);
+    }
+    exports_22("ballFactory", ballFactory);
+    return {
+        setters: [
+            function (mod_ts_2_1) {
+                mod_ts_2 = mod_ts_2_1;
+            }
+        ],
+        execute: function () {
             create2D = (entity, props) => {
                 const { position, dimensions, shape } = props;
                 return entity
-                    .addComponent(Position_ts_1.default, position)
-                    .addComponent(TwoDimensions_ts_1.default, dimensions)
-                    .addComponent(Shape_ts_1.default, shape)
-                    .addComponent(Renderable_ts_1.default);
+                    .addComponent(mod_ts_2.Position, position)
+                    .addComponent(mod_ts_2.TwoDimensions, dimensions)
+                    .addComponent(mod_ts_2.Shape, shape)
+                    .addComponent(mod_ts_2.Renderable);
             };
             createMovable = (entity, props) => {
                 const { velocity } = props;
-                return entity.addComponent(Velocity_ts_1.default, velocity);
+                return entity.addComponent(mod_ts_2.Velocity, velocity);
             };
             createCollidable = (entity, props) => {
                 props.bounds = createBoundingBox(props);
-                return entity.addComponent(AxisAlignedBoundingBox_ts_1.default, props);
+                return entity.addComponent(mod_ts_2.AxisAlignedBoundingBox, props);
             };
             createMovable2D = (entity, props) => createMovable(create2D(entity, props), props);
             createCollidableMovable2D = (entity, props) => createCollidable(createMovable2D(entity, props), props);
@@ -2119,129 +2162,53 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/factories/Gam
                     }
                 };
             };
-            updatePaddleValocity = (yMagnitude) => (entity) => {
-                const velocity = entity.getMutableComponent(Velocity_ts_1.default);
-                velocity.y = yMagnitude;
-            };
-            movePaddleUp = updatePaddleValocity(-1);
-            movePaddleDown = updatePaddleValocity(1);
             controllerFactory = (world, props) => {
                 const controller = world.createEntity("Controller");
                 const { owner, emitter } = props;
                 controller
-                    .addComponent(KeyBoard_ts_1.default)
-                    .addComponent(Owner_ts_1.default, owner)
-                    .addComponent(ControllerTag_ts_1.default);
+                    .addComponent(mod_ts_2.KeyBoard)
+                    .addComponent(mod_ts_2.Owner, owner)
+                    .addComponent(mod_ts_2.ControllerTag);
                 controller.emitter = emitter;
                 return controller;
             };
-            exports_21("controllerFactory", controllerFactory);
-            paddleFactory = (world, name, playerTag, props) => {
-                const paddle = world.createEntity(name);
+            exports_22("controllerFactory", controllerFactory);
+            paddleFactory = (world, props) => {
+                const { player } = props;
+                const paddle = world.createEntity("Paddle");
                 paddle
-                    .addComponent(Paddle_ts_1.default)
-                    .addComponent(playerTag);
+                    .addComponent(mod_ts_2.Paddle)
+                    .addComponent(mod_ts_2.Player, player);
                 props.bounds = createBoundingBox(props);
                 return createCollidableMovable2D(paddle, props);
             };
-            exports_21("paddleFactory", paddleFactory);
+            exports_22("paddleFactory", paddleFactory);
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/PlayerTags", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy"], function (exports_22, context_22) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/IController", [], function (exports_23, context_23) {
     "use strict";
-    var ecsy_ts_12, PlayerOne, PlayerTwo;
-    var __moduleName = context_22 && context_22.id;
-    return {
-        setters: [
-            function (ecsy_ts_12_1) {
-                ecsy_ts_12 = ecsy_ts_12_1;
-            }
-        ],
-        execute: function () {
-            PlayerOne = class PlayerOne extends ecsy_ts_12.TagComponent {
-            };
-            exports_22("PlayerOne", PlayerOne);
-            PlayerTwo = class PlayerTwo extends ecsy_ts_12.TagComponent {
-            };
-            exports_22("PlayerTwo", PlayerTwo);
-        }
-    };
-});
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod", ["file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Owner", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/PlayerTags", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball"], function (exports_23, context_23) {
-    "use strict";
-    var Position_ts_2, Velocity_ts_2, TwoDimensions_ts_2, Shape_ts_2, Renderable_ts_2, AxisAlignedBoundingBox_ts_2, KeyBoard_ts_2, ControllerTag_ts_2, Owner_ts_2, PlayerTags_ts_1, Paddle_ts_2, Ball_ts_2;
     var __moduleName = context_23 && context_23.id;
     return {
-        setters: [
-            function (Position_ts_2_1) {
-                Position_ts_2 = Position_ts_2_1;
-            },
-            function (Velocity_ts_2_1) {
-                Velocity_ts_2 = Velocity_ts_2_1;
-            },
-            function (TwoDimensions_ts_2_1) {
-                TwoDimensions_ts_2 = TwoDimensions_ts_2_1;
-            },
-            function (Shape_ts_2_1) {
-                Shape_ts_2 = Shape_ts_2_1;
-            },
-            function (Renderable_ts_2_1) {
-                Renderable_ts_2 = Renderable_ts_2_1;
-            },
-            function (AxisAlignedBoundingBox_ts_2_1) {
-                AxisAlignedBoundingBox_ts_2 = AxisAlignedBoundingBox_ts_2_1;
-            },
-            function (KeyBoard_ts_2_1) {
-                KeyBoard_ts_2 = KeyBoard_ts_2_1;
-            },
-            function (ControllerTag_ts_2_1) {
-                ControllerTag_ts_2 = ControllerTag_ts_2_1;
-            },
-            function (Owner_ts_2_1) {
-                Owner_ts_2 = Owner_ts_2_1;
-            },
-            function (PlayerTags_ts_1_1) {
-                PlayerTags_ts_1 = PlayerTags_ts_1_1;
-            },
-            function (Paddle_ts_2_1) {
-                Paddle_ts_2 = Paddle_ts_2_1;
-            },
-            function (Ball_ts_2_1) {
-                Ball_ts_2 = Ball_ts_2_1;
-            }
-        ],
+        setters: [],
         execute: function () {
-            exports_23("Position", Position_ts_2.default);
-            exports_23("Velocity", Velocity_ts_2.default);
-            exports_23("TwoDimensions", TwoDimensions_ts_2.default);
-            exports_23("Shape", Shape_ts_2.default);
-            exports_23("Renderable", Renderable_ts_2.default);
-            exports_23("AxisAlignedBoundingBox", AxisAlignedBoundingBox_ts_2.default);
-            exports_23("KeyBoard", KeyBoard_ts_2.default);
-            exports_23("ControllerTag", ControllerTag_ts_2.default);
-            exports_23("Owner", Owner_ts_2.default);
-            exports_23("PlayerOne", PlayerTags_ts_1.PlayerOne);
-            exports_23("PlayerTwo", PlayerTags_ts_1.PlayerTwo);
-            exports_23("Paddle", Paddle_ts_2.default);
-            exports_23("Ball", Ball_ts_2.default);
         }
     };
 });
 System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/MovableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity"], function (exports_24, context_24) {
     "use strict";
-    var ecsy_ts_13, Position_ts_3, Velocity_ts_3, MovableSystem;
+    var ecsy_ts_13, Position_ts_2, Velocity_ts_2, MovableSystem;
     var __moduleName = context_24 && context_24.id;
     return {
         setters: [
             function (ecsy_ts_13_1) {
                 ecsy_ts_13 = ecsy_ts_13_1;
             },
-            function (Position_ts_3_1) {
-                Position_ts_3 = Position_ts_3_1;
+            function (Position_ts_2_1) {
+                Position_ts_2 = Position_ts_2_1;
             },
-            function (Velocity_ts_3_1) {
-                Velocity_ts_3 = Velocity_ts_3_1;
+            function (Velocity_ts_2_1) {
+                Velocity_ts_2 = Velocity_ts_2_1;
             }
         ],
         execute: function () {
@@ -2249,8 +2216,8 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Movab
                 constructor() {
                     super(...arguments);
                     this.update = (delta, speed) => (entity) => {
-                        const velocity = entity.getComponent(Velocity_ts_3.default);
-                        const position = entity.getMutableComponent(Position_ts_3.default);
+                        const velocity = entity.getComponent(Velocity_ts_2.default);
+                        const position = entity.getMutableComponent(Position_ts_2.default);
                         position.x += velocity.x * speed * delta;
                         position.y += velocity.y * speed * delta;
                     };
@@ -2266,65 +2233,80 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Movab
             exports_24("MovableSystem", MovableSystem);
             MovableSystem.queries = {
                 moving: {
-                    components: [Position_ts_3.default, Velocity_ts_3.default],
+                    components: [Position_ts_2.default, Velocity_ts_2.default],
                     listen: {
-                        changed: [Position_ts_3.default]
+                        changed: [Position_ts_2.default]
                     }
                 }
             };
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/CollidableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle"], function (exports_25, context_25) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/CollidableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Ball", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Paddle", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod"], function (exports_25, context_25) {
     "use strict";
-    var ecsy_ts_14, Velocity_ts_4, Position_ts_4, AxisAlignedBoundingBox_ts_3, TwoDimensions_ts_3, Ball_ts_3, Paddle_ts_3, CollidableSystem;
+    var ecsy_ts_14, Velocity_ts_3, Position_ts_3, AxisAlignedBoundingBox_ts_2, TwoDimensions_ts_2, Ball_ts_2, Paddle_ts_2, mod_ts_3, CollidableSystem;
     var __moduleName = context_25 && context_25.id;
     return {
         setters: [
             function (ecsy_ts_14_1) {
                 ecsy_ts_14 = ecsy_ts_14_1;
             },
-            function (Velocity_ts_4_1) {
-                Velocity_ts_4 = Velocity_ts_4_1;
+            function (Velocity_ts_3_1) {
+                Velocity_ts_3 = Velocity_ts_3_1;
             },
-            function (Position_ts_4_1) {
-                Position_ts_4 = Position_ts_4_1;
+            function (Position_ts_3_1) {
+                Position_ts_3 = Position_ts_3_1;
             },
-            function (AxisAlignedBoundingBox_ts_3_1) {
-                AxisAlignedBoundingBox_ts_3 = AxisAlignedBoundingBox_ts_3_1;
+            function (AxisAlignedBoundingBox_ts_2_1) {
+                AxisAlignedBoundingBox_ts_2 = AxisAlignedBoundingBox_ts_2_1;
             },
-            function (TwoDimensions_ts_3_1) {
-                TwoDimensions_ts_3 = TwoDimensions_ts_3_1;
+            function (TwoDimensions_ts_2_1) {
+                TwoDimensions_ts_2 = TwoDimensions_ts_2_1;
             },
-            function (Ball_ts_3_1) {
-                Ball_ts_3 = Ball_ts_3_1;
+            function (Ball_ts_2_1) {
+                Ball_ts_2 = Ball_ts_2_1;
             },
-            function (Paddle_ts_3_1) {
-                Paddle_ts_3 = Paddle_ts_3_1;
+            function (Paddle_ts_2_1) {
+                Paddle_ts_2 = Paddle_ts_2_1;
+            },
+            function (mod_ts_3_1) {
+                mod_ts_3 = mod_ts_3_1;
             }
         ],
         execute: function () {
             CollidableSystem = class CollidableSystem extends ecsy_ts_14.System {
+                constructor() {
+                    super(...arguments);
+                    this.handleBallPaddleCollision = (ballVelocity) => { ballVelocity.x *= -1; };
+                    this.ballPaddleCollision = (predicate, action) => (ballVelocity, ballBounds, paddleBounds) => {
+                        if (predicate(ballBounds, paddleBounds)) {
+                            action(ballVelocity);
+                        }
+                    };
+                    this.ballPaddleOneCollision = this.ballPaddleCollision(this.areOverlapping, this.handleBallPaddleCollision);
+                    this.ballPaddleTwoCollision = this.ballPaddleCollision(this.areOverlapping, this.handleBallPaddleCollision);
+                }
                 init() {
                     this.context = this.world.options.context;
                 }
                 execute(delta, time) {
+                    const ball = this.queries.ball.results[0];
                     let dynamicQuery = this.queries.dynamic;
+                    const paddleBounds = {};
                     dynamicQuery.changed.forEach((entity) => {
-                        const position = entity.getComponent(Position_ts_4.default);
-                        const dimensions = entity.getComponent(TwoDimensions_ts_3.default);
-                        const bounds = entity.getMutableComponent(AxisAlignedBoundingBox_ts_3.default);
+                        const position = entity.getComponent(Position_ts_3.default);
+                        const dimensions = entity.getComponent(TwoDimensions_ts_2.default);
+                        const bounds = entity.getMutableComponent(AxisAlignedBoundingBox_ts_2.default);
                         this.updateBounds(position, bounds, dimensions);
                     });
                     this.queries.paddles.results.forEach((entity) => {
-                        const bounds = entity.getComponent(AxisAlignedBoundingBox_ts_3.default);
-                        const velocity = entity.getMutableComponent(Velocity_ts_4.default);
+                        const bounds = entity.getComponent(AxisAlignedBoundingBox_ts_2.default);
+                        const player = entity.getComponent(mod_ts_3.Player);
+                        const velocity = entity.getMutableComponent(Velocity_ts_3.default);
                         this.paddleWallCollision(velocity, bounds);
+                        paddleBounds[player.value] = bounds;
                     });
-                    const ball = this.queries.ball.results[0];
-                    const ballBounds = ball.getComponent(AxisAlignedBoundingBox_ts_3.default);
-                    const ballVelocity = ball.getMutableComponent(Velocity_ts_4.default);
-                    this.ballWallCollision(ballVelocity, ballBounds);
+                    this.ballCollisison(ball, paddleBounds);
                 }
                 updateBounds(position, bounds, dimensions) {
                     bounds.left = position.x;
@@ -2341,6 +2323,23 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
                     if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
                         velocity.y *= -1;
                 }
+                areOverlapping(a, b) {
+                    return (a.top < b.bottom && a.bottom > b.top)
+                        &&
+                            (a.left < b.right && a.right > b.left);
+                }
+                ballCollisison(ball, paddleBounds) {
+                    const leftQuarterScreen = this.context.canvas.width * 0.25;
+                    const rightQuarterScreen = 1 - leftQuarterScreen;
+                    const ballBounds = ball.getComponent(AxisAlignedBoundingBox_ts_2.default);
+                    const ballVelocity = ball.getMutableComponent(Velocity_ts_3.default);
+                    this.ballWallCollision(ballVelocity, ballBounds);
+                    if (ballBounds.left < leftQuarterScreen) {
+                        this.ballPaddleOneCollision(ballVelocity, paddleBounds["one"], ballBounds);
+                    }
+                    else if (ballBounds.right > rightQuarterScreen)
+                        this.ballPaddleTwoCollision(ballVelocity, paddleBounds["two"], ballBounds);
+                }
                 paddleWallCollision(velocity, bounds) {
                     if (bounds.top <= 0 || bounds.bottom >= this.context.canvas.height)
                         velocity.y = 0;
@@ -2349,16 +2348,16 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
             exports_25("CollidableSystem", CollidableSystem);
             CollidableSystem.queries = {
                 dynamic: {
-                    components: [Velocity_ts_4.default, Position_ts_4.default, AxisAlignedBoundingBox_ts_3.default],
+                    components: [Velocity_ts_3.default, Position_ts_3.default, AxisAlignedBoundingBox_ts_2.default],
                     listen: {
-                        changed: [Position_ts_4.default]
+                        changed: [Position_ts_3.default]
                     }
                 },
                 ball: {
-                    components: [Ball_ts_3.default]
+                    components: [Ball_ts_2.default]
                 },
                 paddles: {
-                    components: [Paddle_ts_3.default]
+                    components: [Paddle_ts_2.default]
                 }
             };
         }
@@ -2366,15 +2365,15 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
 });
 System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/ColliderDebuggingSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/AxisAlignedBoundingBox"], function (exports_26, context_26) {
     "use strict";
-    var ecsy_ts_15, AxisAlignedBoundingBox_ts_4, ColliderDebuggingSystem;
+    var ecsy_ts_15, AxisAlignedBoundingBox_ts_3, ColliderDebuggingSystem;
     var __moduleName = context_26 && context_26.id;
     return {
         setters: [
             function (ecsy_ts_15_1) {
                 ecsy_ts_15 = ecsy_ts_15_1;
             },
-            function (AxisAlignedBoundingBox_ts_4_1) {
-                AxisAlignedBoundingBox_ts_4 = AxisAlignedBoundingBox_ts_4_1;
+            function (AxisAlignedBoundingBox_ts_3_1) {
+                AxisAlignedBoundingBox_ts_3 = AxisAlignedBoundingBox_ts_3_1;
             }
         ],
         execute: function () {
@@ -2384,7 +2383,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
                 }
                 execute(delta, time) {
                     this.queries.collider.results.forEach((entity) => {
-                        const bounds = entity.getComponent(AxisAlignedBoundingBox_ts_4.default);
+                        const bounds = entity.getComponent(AxisAlignedBoundingBox_ts_3.default);
                         this.drawDebugRect(this.ctx, bounds);
                     });
                 }
@@ -2401,7 +2400,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
             exports_26("ColliderDebuggingSystem", ColliderDebuggingSystem);
             ColliderDebuggingSystem.queries = {
                 collider: {
-                    components: [AxisAlignedBoundingBox_ts_4.default]
+                    components: [AxisAlignedBoundingBox_ts_3.default]
                 }
             };
         }
@@ -2409,24 +2408,24 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Colli
 });
 System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/RenderableSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Renderable", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Shape", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Position", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/TwoDimensions"], function (exports_27, context_27) {
     "use strict";
-    var ecsy_ts_16, Renderable_ts_3, Shape_ts_3, Position_ts_5, TwoDimensions_ts_4, RenderableSystem;
+    var ecsy_ts_16, Renderable_ts_2, Shape_ts_2, Position_ts_4, TwoDimensions_ts_3, RenderableSystem;
     var __moduleName = context_27 && context_27.id;
     return {
         setters: [
             function (ecsy_ts_16_1) {
                 ecsy_ts_16 = ecsy_ts_16_1;
             },
-            function (Renderable_ts_3_1) {
-                Renderable_ts_3 = Renderable_ts_3_1;
+            function (Renderable_ts_2_1) {
+                Renderable_ts_2 = Renderable_ts_2_1;
             },
-            function (Shape_ts_3_1) {
-                Shape_ts_3 = Shape_ts_3_1;
+            function (Shape_ts_2_1) {
+                Shape_ts_2 = Shape_ts_2_1;
             },
-            function (Position_ts_5_1) {
-                Position_ts_5 = Position_ts_5_1;
+            function (Position_ts_4_1) {
+                Position_ts_4 = Position_ts_4_1;
             },
-            function (TwoDimensions_ts_4_1) {
-                TwoDimensions_ts_4 = TwoDimensions_ts_4_1;
+            function (TwoDimensions_ts_3_1) {
+                TwoDimensions_ts_3 = TwoDimensions_ts_3_1;
             }
         ],
         execute: function () {
@@ -2438,9 +2437,9 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Rende
                     this.context.fillStyle = "#000000";
                     this.context.fillRect(0, 0, this.context.canvas.width, this.context.canvas.height);
                     this.queries.renderable.results.forEach((entity) => {
-                        const shape = entity.getComponent(Shape_ts_3.default);
-                        const position = entity.getComponent(Position_ts_5.default);
-                        const dimensions = entity.getComponent(TwoDimensions_ts_4.default);
+                        const shape = entity.getComponent(Shape_ts_2.default);
+                        const position = entity.getComponent(Position_ts_4.default);
+                        const dimensions = entity.getComponent(TwoDimensions_ts_3.default);
                         if (shape.primitive === "box") {
                             this.drawBox(position, dimensions);
                         }
@@ -2456,41 +2455,38 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Rende
             exports_27("RenderableSystem", RenderableSystem);
             RenderableSystem.queries = {
                 renderable: {
-                    components: [Renderable_ts_3.default, Shape_ts_3.default]
+                    components: [Renderable_ts_2.default, Shape_ts_2.default]
                 }
             };
         }
     };
 });
-System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/InputSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Velocity", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Owner"], function (exports_28, context_28) {
+System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/InputSystem", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/KeyBoard", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/ControllerTag", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/Owner"], function (exports_28, context_28) {
     "use strict";
-    var ecsy_ts_17, KeyBoard_ts_3, ControllerTag_ts_3, Velocity_ts_5, Owner_ts_3, InputSystem;
+    var ecsy_ts_17, KeyBoard_ts_2, ControllerTag_ts_2, Owner_ts_2, InputSystem;
     var __moduleName = context_28 && context_28.id;
     return {
         setters: [
             function (ecsy_ts_17_1) {
                 ecsy_ts_17 = ecsy_ts_17_1;
             },
-            function (KeyBoard_ts_3_1) {
-                KeyBoard_ts_3 = KeyBoard_ts_3_1;
+            function (KeyBoard_ts_2_1) {
+                KeyBoard_ts_2 = KeyBoard_ts_2_1;
             },
-            function (ControllerTag_ts_3_1) {
-                ControllerTag_ts_3 = ControllerTag_ts_3_1;
+            function (ControllerTag_ts_2_1) {
+                ControllerTag_ts_2 = ControllerTag_ts_2_1;
             },
-            function (Velocity_ts_5_1) {
-                Velocity_ts_5 = Velocity_ts_5_1;
-            },
-            function (Owner_ts_3_1) {
-                Owner_ts_3 = Owner_ts_3_1;
+            function (Owner_ts_2_1) {
+                Owner_ts_2 = Owner_ts_2_1;
             }
         ],
         execute: function () {
             InputSystem = class InputSystem extends ecsy_ts_17.System {
                 execute(delta, time) {
                     this.queries.controllers.changed.forEach((entity) => {
-                        const keyBoard = entity.getComponent(KeyBoard_ts_3.default);
+                        const keyBoard = entity.getComponent(KeyBoard_ts_2.default);
                         const currentKey = keyBoard.currentKey;
-                        const owner = entity.getComponent(Owner_ts_3.default);
+                        const owner = entity.getComponent(Owner_ts_2.default);
                         if (owner.value === "playerOne") {
                             console.log(keyBoard.currentKey);
                             if (!currentKey)
@@ -2510,18 +2506,13 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/Input
                         }
                     });
                 }
-                updatePaddleVelocity(magnitude, entity) {
-                    const velocity = entity.getMutableComponent(Velocity_ts_5.default);
-                    velocity.y = magnitude;
-                    console.log(velocity);
-                }
             };
             exports_28("InputSystem", InputSystem);
             InputSystem.queries = {
                 controllers: {
-                    components: [KeyBoard_ts_3.default, ControllerTag_ts_3.default],
+                    components: [KeyBoard_ts_2.default, ControllerTag_ts_2.default],
                     listen: {
-                        changed: [KeyBoard_ts_3.default]
+                        changed: [KeyBoard_ts_2.default]
                     }
                 }
             };
@@ -2561,7 +2552,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/systems/mod",
 });
 System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:///home/trippyak/Documents/Deno/denoFun/pong/deps/ecsy", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ScoreEmitter", "file:///home/trippyak/Documents/Deno/denoFun/pong/ui/ScoreBoard/public/build/bundle", "file:///home/trippyak/Documents/Deno/denoFun/pong/factories/GameEntityFactories", "file:///home/trippyak/Documents/Deno/denoFun/pong/components/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/systems/mod", "file:///home/trippyak/Documents/Deno/denoFun/pong/emitters/ControllerEmitter"], function (exports_30, context_30) {
     "use strict";
-    var ecsy_ts_18, ScoreEmitter_ts_1, bundle_js_1, GameEntityFactories_ts_1, mod_ts_2, mod_ts_3, ControllerEmitter_ts_1, scoreEmitter, scoreBoard, canvas, context, center, SPEED_MULTIPLIER, getRandomVelocity, worldFactory, world, ball, paddleHeight, paddleDimensions, paddleOne, paddleTwo, updatePaddleValocity, movePaddleUp, movePaddleDown, stopPaddle, movePaddleOneUp, movePaddleOneDown, stopPaddleOne, movePaddleTwoUp, movePaddleTwoDown, stopPaddleTwo, playerOneControls, playerTwoControls, playerOneController, playerTwoController, resetBall, isValidKey, updateKeyBoard, lastTime;
+    var ecsy_ts_18, ScoreEmitter_ts_1, bundle_js_1, GameEntityFactories_ts_1, mod_ts_4, mod_ts_5, ControllerEmitter_ts_1, scoreEmitter, scoreBoard, canvas, context, center, SPEED_MULTIPLIER, getRandomVelocity, worldFactory, world, ball, paddleHeight, paddleDimensions, paddleOne, paddleTwo, updatePaddleValocity, movePaddleUp, movePaddleDown, stopPaddle, movePaddleOneUp, movePaddleOneDown, stopPaddleOne, movePaddleTwoUp, movePaddleTwoDown, stopPaddleTwo, playerOneControls, playerTwoControls, playerOneController, playerTwoController, resetBall, isValidKey, updateKeyBoard, lastTime;
     var __moduleName = context_30 && context_30.id;
     function run() {
         var time = performance.now();
@@ -2584,11 +2575,11 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
             function (GameEntityFactories_ts_1_1) {
                 GameEntityFactories_ts_1 = GameEntityFactories_ts_1_1;
             },
-            function (mod_ts_2_1) {
-                mod_ts_2 = mod_ts_2_1;
+            function (mod_ts_4_1) {
+                mod_ts_4 = mod_ts_4_1;
             },
-            function (mod_ts_3_1) {
-                mod_ts_3 = mod_ts_3_1;
+            function (mod_ts_5_1) {
+                mod_ts_5 = mod_ts_5_1;
             },
             function (ControllerEmitter_ts_1_1) {
                 ControllerEmitter_ts_1 = ControllerEmitter_ts_1_1;
@@ -2621,25 +2612,24 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 return world;
             };
             world = worldFactory({ context, scoreEmitter, speed: 0.2 }, [
-                mod_ts_2.Owner,
-                mod_ts_2.KeyBoard,
-                mod_ts_2.Velocity,
-                mod_ts_2.Position,
-                mod_ts_2.TwoDimensions,
-                mod_ts_2.Shape,
-                mod_ts_2.AxisAlignedBoundingBox,
-                mod_ts_2.Renderable,
-                mod_ts_2.ControllerTag,
-                mod_ts_2.PlayerOne,
-                mod_ts_2.PlayerTwo,
-                mod_ts_2.Paddle,
-                mod_ts_2.Ball
+                mod_ts_4.Owner,
+                mod_ts_4.KeyBoard,
+                mod_ts_4.Velocity,
+                mod_ts_4.Position,
+                mod_ts_4.TwoDimensions,
+                mod_ts_4.Shape,
+                mod_ts_4.AxisAlignedBoundingBox,
+                mod_ts_4.Renderable,
+                mod_ts_4.ControllerTag,
+                mod_ts_4.Player,
+                mod_ts_4.Paddle,
+                mod_ts_4.Ball
             ], [
-                mod_ts_3.InputSystem,
-                mod_ts_3.MovableSystem,
-                mod_ts_3.CollidableSystem,
-                mod_ts_3.RenderableSystem,
-                mod_ts_3.ColliderDebuggingSystem
+                mod_ts_5.InputSystem,
+                mod_ts_5.MovableSystem,
+                mod_ts_5.CollidableSystem,
+                mod_ts_5.RenderableSystem,
+                mod_ts_5.ColliderDebuggingSystem
             ]);
             ball = GameEntityFactories_ts_1.ballFactory(world, {
                 position: center,
@@ -2657,7 +2647,7 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 width: 20,
                 height: paddleHeight
             };
-            paddleOne = GameEntityFactories_ts_1.paddleFactory(world, "PaddleOne", mod_ts_2.PlayerOne, {
+            paddleOne = GameEntityFactories_ts_1.paddleFactory(world, {
                 position: {
                     x: (center.x - (paddleDimensions.width / 2)) - (canvas.width * 0.47),
                     y: center.y - (paddleDimensions.height / 2)
@@ -2672,9 +2662,12 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 velocity: {
                     x: 0,
                     y: 0
+                },
+                player: {
+                    value: "one"
                 }
             });
-            paddleTwo = GameEntityFactories_ts_1.paddleFactory(world, "PaddleTwo", mod_ts_2.PlayerTwo, {
+            paddleTwo = GameEntityFactories_ts_1.paddleFactory(world, {
                 position: {
                     x: (center.x - (paddleDimensions.width / 2)) - (1 - ((canvas.width * 0.47))),
                     y: center.y - (paddleDimensions.height / 2)
@@ -2686,10 +2679,13 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 velocity: {
                     x: 0,
                     y: 0
+                },
+                player: {
+                    value: "two"
                 }
             });
             updatePaddleValocity = (yMagnitude) => (entity) => {
-                const velocity = entity.getMutableComponent(mod_ts_2.Velocity);
+                const velocity = entity.getMutableComponent(mod_ts_4.Velocity);
                 velocity.y = yMagnitude;
                 console.log(velocity);
             };
@@ -2725,8 +2721,8 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 emitter: playerTwoControls
             });
             resetBall = (ball) => {
-                const position = ball.getMutableComponent(mod_ts_2.Position);
-                const velocity = ball.getMutableComponent(mod_ts_2.Velocity);
+                const position = ball.getMutableComponent(mod_ts_4.Position);
+                const velocity = ball.getMutableComponent(mod_ts_4.Velocity);
                 const randoVelocity = getRandomVelocity();
                 position.x = center.x;
                 position.y = center.y;
@@ -2742,9 +2738,9 @@ System.register("file:///home/trippyak/Documents/Deno/denoFun/pong/app", ["file:
                 return allowedKeys.indexOf(key) !== -1;
             };
             updateKeyBoard = (controller, isKeyDown, key) => {
-                let keyBoard = controller.getComponent(mod_ts_2.KeyBoard);
+                let keyBoard = controller.getComponent(mod_ts_4.KeyBoard);
                 if (keyBoard[key] !== isKeyDown) {
-                    keyBoard = controller.getMutableComponent(mod_ts_2.KeyBoard);
+                    keyBoard = controller.getMutableComponent(mod_ts_4.KeyBoard);
                     keyBoard[key] = isKeyDown;
                     keyBoard.currentKey = isKeyDown ? key : undefined;
                     console.log(keyBoard.currentKey);

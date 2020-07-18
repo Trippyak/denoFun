@@ -8,7 +8,7 @@ import AxisAlignedBoundingBox from "./AxisAlignedBoundingBox.ts";
 import KeyBoard from "./KeyBoard.ts";
 import ControllerTag from "./ControllerTag.ts";
 import Owner from "./Owner.ts";
-import { PlayerOne, PlayerTwo } from "./PlayerTags.ts";
+import Player, { PlayerValue } from "./Player.ts";
 import Paddle from "./Paddle.ts";
 import Ball from "./Ball.ts";
 
@@ -22,8 +22,8 @@ export {
     , KeyBoard
     , ControllerTag
     , Owner
-    , PlayerOne
-    , PlayerTwo
+    , Player
     , Paddle
     , Ball
+    , PlayerValue
 };

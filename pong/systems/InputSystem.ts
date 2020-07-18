@@ -3,7 +3,6 @@ import { System, _Entity, World } from "../deps/ecsy.ts";
 import KeyBoard from "../components/KeyBoard.ts";
 import ControllerTag from "../components/ControllerTag.ts";
 import { IController } from "../IController.ts";
-import { PlayerOne, PlayerTwo } from "../components/PlayerTags.ts";
 import GameControls from "../gameControls.ts";
 import Velocity from "../components/Velocity.ts";
 import Owner from "../components/Owner.ts";
@@ -37,12 +36,6 @@ class InputSystem extends System
                     entity.emitter.emit("ArrowDown");
             }
         });
-    }
-
-    updatePaddleVelocity(magnitude: number, entity: _Entity) {
-        const velocity: Velocity = entity.getMutableComponent(Velocity);
-        velocity.y = magnitude;
-        console.log(velocity);
     }
 }
 
